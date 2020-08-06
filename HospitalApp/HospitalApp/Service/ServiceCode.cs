@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HospitalApp.Helper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace HospitalApp.Service
 {
-    public class Service
+    public class ServiceCode
     {
-        List<vwPatient> GetAllPatients()
+        public List<vwPatient> GetAllPatients()
         {
             try
             {
-                using(HospitalEntities1 context = new HospitalEntities1())
+                using(HospitalEntities3 context = new HospitalEntities3())
                 {
                     List<vwPatient> list = new List<vwPatient>();
                     list = (from p in context.vwPatients select p).ToList();
@@ -26,11 +27,11 @@ namespace HospitalApp.Service
             }
         }
         
-        vwPatient AddPatient(vwPatient patient)
+        public vwPatient AddPatient(vwPatient patient)
         {
             try
             {
-                using(HospitalEntities1 context = new HospitalEntities1())
+                using(HospitalEntities3 context = new HospitalEntities3())
                 {
                     if(patient.PatientId==0)
                     {
@@ -67,11 +68,11 @@ namespace HospitalApp.Service
             }
         }
 
-        List<vwDoctor> GetAllDoctors()
+        public List<vwDoctor> GetAllDoctors()
         {
             try
             {
-                using (HospitalEntities1 context = new HospitalEntities1())
+                using (HospitalEntities3 context = new HospitalEntities3())
                 {
                     List<vwDoctor> list = new List<vwDoctor>();
                     list = (from p in context.vwDoctors select p).ToList();
@@ -85,11 +86,11 @@ namespace HospitalApp.Service
             }
         }
 
-        vwDoctor AddDoctor(vwDoctor doctor)
+        public Doctor AddDoctor(Doctor doctor)
         {
             try
             {
-                using (HospitalEntities1 context = new HospitalEntities1())
+                using (HospitalEntities3 context = new HospitalEntities3())
                 {
                     if (doctor.DoctorId == 0)
                     {
@@ -99,7 +100,7 @@ namespace HospitalApp.Service
                         newDoctor.DoctorJMBG = doctor.DoctorJMBG;
                         newDoctor.BankAccount = doctor.BankAccount;
                         newDoctor.Username = doctor.Username;
-                        newDoctor.DoctorPassword = doctor.DoctorPassword;
+                        newDoctor.DoctorPassword = HashPasswordHelper.HashPassword(doctor.DoctorPassword);
                         context.Doctors.Add(newDoctor);
                         context.SaveChanges();
                         doctor.DoctorId = newDoctor.DoctorId;
@@ -127,11 +128,11 @@ namespace HospitalApp.Service
             }
         }
 
-        List<vwRequest> GetAllRequestByPatient(int patientId)
+        public List<vwRequest> GetAllRequestByPatient(int patientId)
         {
             try
             {
-                using (HospitalEntities1 context = new HospitalEntities1())
+                using (HospitalEntities3 context = new HospitalEntities3())
                 {
                     List<vwRequest> list = new List<vwRequest>();
                     list = (from p in context.vwRequests where p.PatientId== patientId select p).ToList();
@@ -145,11 +146,11 @@ namespace HospitalApp.Service
             }
         }
 
-        List<vwRequest> GetAllRequestByDoctor(int doctorId)
+        public List<vwRequest> GetAllRequestByDoctor(int doctorId)
         {
             try
             {
-                using (HospitalEntities1 context = new HospitalEntities1())
+                using (HospitalEntities3 context = new HospitalEntities3())
                 {
                     List<vwRequest> list = new List<vwRequest>();
                     list = (from p in context.vwRequests where p.DoctorId == doctorId select p).OrderByDescending(x=>x.IsApproved).ThenByDescending(x=>x.Date).ToList();
@@ -163,11 +164,11 @@ namespace HospitalApp.Service
             }
         }
 
-        vwRequest AddRequest(vwRequest request)
+        public vwRequest AddRequest(vwRequest request)
         {
             try
             {
-                using (HospitalEntities1 context = new HospitalEntities1())
+                using (HospitalEntities3 context = new HospitalEntities3())
                 {
                     if (request.RequestId == 0)
                     {
@@ -210,11 +211,11 @@ namespace HospitalApp.Service
             }
         }
 
-        void DeleteRequest(int requestId)
+        public void DeleteRequest(int requestId)
         {
             try
             {
-                using (HospitalEntities1 context = new HospitalEntities1())
+                using (HospitalEntities3 context = new HospitalEntities3())
                 {
                     Request resultToDelete = (from r in context.Requests where r.RequestId == requestId select r).First();
                     if(resultToDelete.IsApproved!=null)
@@ -227,6 +228,45 @@ namespace HospitalApp.Service
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+            }
+        }
+
+        public Doctor LoginDoctor(string username, string password)
+        {
+            password = HashPasswordHelper.HashPassword(password);
+            try
+            {
+                using(HospitalEntities3 context = new HospitalEntities3())
+                {
+                    Doctor doctor = (from d in context.Doctors 
+                                     where d.Username.Equals(username) where d.DoctorPassword.Equals(password) select d).First();
+                    return doctor;
+                }
+            }
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+                return null;
+            }
+        }
+
+        public Patient LoginPatient(string username, string password)
+        {
+            try
+            {
+                using (HospitalEntities3 context = new HospitalEntities3())
+                {
+                    Patient patient = (from p in context.Patients
+                                     where p.Username.Equals(username)
+                                     where p.PatientPassword.Equals(HashPasswordHelper.HashPassword(password))
+                                     select p).First();
+                    return patient;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+                return null;
             }
         }
     }

@@ -16,8 +16,8 @@ namespace HospitalApp
     {
         public int PatientId { get; set; }
         public string Fullname { get; set; }
-        public int PatientJMBG { get; set; }
-        public int NumInsurce { get; set; }
+        public string PatientJMBG { get; set; }
+        public string NumInsurce { get; set; }
         public string Username { get; set; }
         public string PatientPassword { get; set; }
         public Nullable<int> DoctorId { get; set; }

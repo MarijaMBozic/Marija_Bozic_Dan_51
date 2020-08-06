@@ -11,20 +11,25 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HospitalApp
+namespace HospitalApp.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for AddDoctor.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class AddDoctor : Window
     {
-        public MainWindow()
+        public AddDoctor()
         {
             InitializeComponent();
-            this.DataContext = new MainWindowViewModel(this);
+            this.DataContext = new AddDoctorViewModels(this);
+        }
+
+        public AddDoctor(Doctor doctorEdit)
+        {
+            InitializeComponent();
+            this.DataContext = new AddDoctorViewModels(this, doctorEdit);
         }
     }
 }

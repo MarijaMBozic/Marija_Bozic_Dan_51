@@ -18,8 +18,8 @@ namespace HospitalApp
         public System.DateTime Date { get; set; }
         public string Reason { get; set; }
         public string Company { get; set; }
-        public bool IsUrgent { get; set; }
-        public bool IsApproved { get; set; }
+        public Nullable<bool> IsUrgent { get; set; }
+        public Nullable<bool> IsApproved { get; set; }
         public int PatientId { get; set; }
         public int DoctorId { get; set; }
         public int Expr1 { get; set; }
