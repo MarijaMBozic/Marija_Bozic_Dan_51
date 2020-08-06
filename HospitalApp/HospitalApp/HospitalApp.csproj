@@ -64,6 +64,30 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Doctor.cs">
+      <DependentUpon>HospitalDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HospitalDb.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HospitalDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Patient.cs">
+      <DependentUpon>HospitalDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Request.cs">
+      <DependentUpon>HospitalDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Service\Service.cs" />
+    <Compile Include="vwDoctor.cs">
+      <DependentUpon>HospitalDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="vwPatient.cs">
+      <DependentUpon>HospitalDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="vwRequest.cs">
+      <DependentUpon>HospitalDb.tt</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -124,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
+    <Folder Include="NewFolder1\" />
     <Folder Include="ViewModel\" />
     <Folder Include="Views\" />
   </ItemGroup>
@@ -131,6 +156,11 @@
     <Content Include="HospitalDb.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>HospitalDb.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="HospitalDb.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HospitalDb.edmx</DependentUpon>
+      <LastGenOutput>HospitalDb.cs</LastGenOutput>
     </Content>
     <Content Include="SQl_Design\Hospital_Sql.sql" />
   </ItemGroup>

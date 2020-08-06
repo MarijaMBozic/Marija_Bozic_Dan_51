@@ -1,5 +1,4 @@
-﻿using HospitalApp.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +12,7 @@ namespace HospitalApp.Service
         {
             try
             {
-                using(HospitalEntities context = new HospitalEntities())
+                using(HospitalEntities1 context = new HospitalEntities1())
                 {
                     List<vwPatient> list = new List<vwPatient>();
                     list = (from p in context.vwPatients select p).ToList();
@@ -31,7 +30,7 @@ namespace HospitalApp.Service
         {
             try
             {
-                using(HospitalEntities context = new HospitalEntities())
+                using(HospitalEntities1 context = new HospitalEntities1())
                 {
                     if(patient.PatientId==0)
                     {
@@ -72,7 +71,7 @@ namespace HospitalApp.Service
         {
             try
             {
-                using (HospitalEntities context = new HospitalEntities())
+                using (HospitalEntities1 context = new HospitalEntities1())
                 {
                     List<vwDoctor> list = new List<vwDoctor>();
                     list = (from p in context.vwDoctors select p).ToList();
@@ -90,7 +89,7 @@ namespace HospitalApp.Service
         {
             try
             {
-                using (HospitalEntities context = new HospitalEntities())
+                using (HospitalEntities1 context = new HospitalEntities1())
                 {
                     if (doctor.DoctorId == 0)
                     {
@@ -132,7 +131,7 @@ namespace HospitalApp.Service
         {
             try
             {
-                using (HospitalEntities context = new HospitalEntities())
+                using (HospitalEntities1 context = new HospitalEntities1())
                 {
                     List<vwRequest> list = new List<vwRequest>();
                     list = (from p in context.vwRequests where p.PatientId== patientId select p).ToList();
@@ -150,7 +149,7 @@ namespace HospitalApp.Service
         {
             try
             {
-                using (HospitalEntities context = new HospitalEntities())
+                using (HospitalEntities1 context = new HospitalEntities1())
                 {
                     List<vwRequest> list = new List<vwRequest>();
                     list = (from p in context.vwRequests where p.DoctorId == doctorId select p).OrderByDescending(x=>x.IsApproved).ThenByDescending(x=>x.Date).ToList();
@@ -168,7 +167,7 @@ namespace HospitalApp.Service
         {
             try
             {
-                using (HospitalEntities context = new HospitalEntities())
+                using (HospitalEntities1 context = new HospitalEntities1())
                 {
                     if (request.RequestId == 0)
                     {
@@ -215,7 +214,7 @@ namespace HospitalApp.Service
         {
             try
             {
-                using (HospitalEntities context = new HospitalEntities())
+                using (HospitalEntities1 context = new HospitalEntities1())
                 {
                     Request resultToDelete = (from r in context.Requests where r.RequestId == requestId select r).First();
                     if(resultToDelete.IsApproved!=null)
