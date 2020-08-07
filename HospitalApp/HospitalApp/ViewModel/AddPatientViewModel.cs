@@ -4,79 +4,80 @@ using HospitalApp.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace HospitalApp.ViewModel
 {
-    public class AddDoctorViewModels:ViewModelBase
+    public class AddPatientViewModel:ViewModelBase
     {
-        AddDoctor addDoctor;
+        AddPatientView addPatientWindow;
 
         ServiceCode service = new ServiceCode();
-        
+
         #region Constructor
 
-        public AddDoctorViewModels(AddDoctor addDoctorOpen)
+        public AddPatientViewModel(AddPatientView addPatientOpen)
         {
-            doctor = new vwDoctor();
-            addDoctor = addDoctorOpen;
+            patient = new vwPatient();
+            addPatientWindow = addPatientOpen;
         }
 
-        public AddDoctorViewModels(AddDoctor addDoctorOpen, vwDoctor doctorEdit)
+        public AddPatientViewModel(AddPatientView addPatientOpen, vwPatient patientEdit)
         {
-            doctor = doctorEdit;
-            addDoctor = addDoctorOpen;
+            patient = patientEdit;
+            addPatientWindow = addPatientOpen;
         }
 
         #endregion
 
         #region Properties
 
-        private vwDoctor doctor;
-        public vwDoctor Doctor
+        private vwPatient patient;
+        public vwPatient Patient
         {
             get
             {
-                return doctor;
+                return patient;
             }
             set
             {
-                doctor = value;
-                OnPropertyChanged("Doctor");
+                patient = value;
+                OnPropertyChanged("Patient");
             }
         }
-        private bool isUpdateDoctor;
-        public bool IsUpdateDoctor
+        private bool isUpdatePatient;
+        public bool IsUpdatePatient
         {
             get
             {
-                return isUpdateDoctor;
+                return isUpdatePatient;
             }
             set
             {
-                isUpdateDoctor = value;
+                isUpdatePatient = value;
             }
         }
         #endregion
 
         #region Commands
 
-        private ICommand save;
+        private ICommand savePatient;
 
-        public ICommand Save
+        public ICommand SavePatient
         {
             get
             {
-                if (save == null)
+                if (savePatient == null)
                 {
-                    save = new RelayCommand(param => SaveExecute(param), param => CanSaveExecute());
+                    savePatient = new RelayCommand(param => SaveExecute(param), param => CanSaveExecute());
                 }
 
-                return save;
+                return savePatient;
             }
         }
 
@@ -84,27 +85,27 @@ namespace HospitalApp.ViewModel
         {
             var passwordBox = parametar as PasswordBox;
             var password = passwordBox.Password;
-            Doctor.DoctorPassword = password;
+            Patient.PatientPassword = password;
             try
             {
-                if(service.AddDoctor(Doctor)!=null)
+                if (service.AddPatient(Patient) != null)
                 {
-                    isUpdateDoctor = true;
-                    DoctorViewModel doctorViewModel = new DoctorViewModel(Doctor);
-                    DoctorWindow window = new DoctorWindow(doctorViewModel);
+                    isUpdatePatient = true;
+                    PatientViewModel patientViewModel = new PatientViewModel(Patient);
+                    PatientWindow window = new PatientWindow(patientViewModel);
                     window.Show();
-                    addDoctor.Close();
+                    addPatientWindow.Close();
                 }
             }
             catch (Exception ex)
             {
-               MessageBox.Show(ex.ToString());
+                MessageBox.Show(ex.ToString());
             }
         }
 
         private bool CanSaveExecute()
         {
-            return true;            
+            return true;
         }
 
         private ICommand close;
@@ -126,7 +127,7 @@ namespace HospitalApp.ViewModel
         {
             try
             {
-                addDoctor.Close();
+                addPatientWindow.Close();
             }
             catch (Exception ex)
             {

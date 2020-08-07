@@ -16,14 +16,20 @@ using System.Windows.Shapes;
 namespace HospitalApp.Views
 {
     /// <summary>
-    /// Interaction logic for LoginDoctor.xaml
+    /// Interaction logic for AddPatientView.xaml
     /// </summary>
-    public partial class LoginDoctor : Window
+    public partial class AddPatientView : Window
     {
-        public LoginDoctor()
+        public AddPatientView()
         {
             InitializeComponent();
-            this.DataContext = new LoginViewModel();
+            this.DataContext = new AddPatientViewModel(this);
+        }
+
+        public AddPatientView(vwPatient patientEdit)
+        {
+            InitializeComponent();
+            this.DataContext = new AddPatientViewModel(this, patientEdit);
         }
     }
 }

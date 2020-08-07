@@ -91,18 +91,19 @@
     </Compile>
     <Compile Include="Service\ServiceCode.cs" />
     <Compile Include="ViewModel\AddDoctorViewModels.cs" />
+    <Compile Include="ViewModel\AddPatientViewModel.cs" />
     <Compile Include="ViewModel\DoctorViewModel.cs" />
-    <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="ViewModel\PatientViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="Views\AddDoctor.xaml.cs">
       <DependentUpon>AddDoctor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AddPatientView.xaml.cs">
+      <DependentUpon>AddPatientView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DoctorWindow.xaml.cs">
       <DependentUpon>DoctorWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LoginDoctor.xaml.cs">
-      <DependentUpon>LoginDoctor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PatientWindow.xaml.cs">
       <DependentUpon>PatientWindow.xaml</DependentUpon>
@@ -133,11 +134,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DoctorWindow.xaml">
+    <Page Include="Views\AddPatientView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\LoginDoctor.xaml">
+    <Page Include="Views\DoctorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

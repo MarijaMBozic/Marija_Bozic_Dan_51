@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,21 +30,25 @@ namespace HospitalApp.Service
         
         public vwPatient AddPatient(vwPatient patient)
         {
+            bool uniqueUser = CheckUserName(patient.Username);
             try
             {
                 using(HospitalEntities3 context = new HospitalEntities3())
                 {
                     if(patient.PatientId==0)
                     {
-                        Patient newPatient = new Patient();
-                        newPatient.Fullname = patient.Fullname;
-                        newPatient.PatientJMBG = patient.PatientJMBG;
-                        newPatient.NumInsurce = patient.NumInsurce;
-                        newPatient.Username = patient.Username;
-                        newPatient.PatientPassword = patient.Username;
-                        context.Patients.Add(newPatient);
-                        context.SaveChanges();
-                        patient.PatientId = newPatient.PatientId;
+                        if (uniqueUser)
+                        {
+                            Patient newPatient = new Patient();
+                            newPatient.Fullname = patient.Fullname;
+                            newPatient.PatientJMBG = patient.PatientJMBG;
+                            newPatient.NumInsurce = patient.NumInsurce;
+                            newPatient.Username = patient.Username;
+                            newPatient.PatientPassword = HashPasswordHelper.HashPassword(patient.PatientPassword);
+                            context.Patients.Add(newPatient);
+                            context.SaveChanges();
+                            patient.PatientId = newPatient.PatientId;
+                        }
                         return patient;
                     }
                     else
@@ -53,7 +58,7 @@ namespace HospitalApp.Service
                         editPatient.PatientJMBG = patient.PatientJMBG;
                         editPatient.NumInsurce = patient.NumInsurce;
                         editPatient.Username = patient.Username;
-                        editPatient.PatientPassword = patient.Username;
+                        //editPatient.PatientPassword = patient.PatientPassword;
                         editPatient.DoctorId = patient.DoctorId;
                         editPatient.PatientId = patient.PatientId;
                         context.SaveChanges();
@@ -86,29 +91,47 @@ namespace HospitalApp.Service
             }
         }
 
-        public Doctor AddDoctor(Doctor doctor)
+        public bool CheckUserName(string username)
         {
+            using (HospitalEntities3 context = new HospitalEntities3())
+            {
+                vwDoctor docUser = (from d in context.vwDoctors where d.Username == username select d).FirstOrDefault();
+                vwPatient patientUser = (from d in context.vwPatients where d.Username == username select d).FirstOrDefault();
+                if (docUser != null || patientUser!=null)
+                {
+                    return false;
+                }
+                return true;
+            }
+        }
+
+        public vwDoctor AddDoctor(vwDoctor doctor)
+        {
+            bool uniqueUser = CheckUserName(doctor.Username);
             try
             {
                 using (HospitalEntities3 context = new HospitalEntities3())
                 {
                     if (doctor.DoctorId == 0)
                     {
-                        Doctor newDoctor = new Doctor();
-                        newDoctor.Name = doctor.Name;
-                        newDoctor.Lastname = doctor.Lastname;
-                        newDoctor.DoctorJMBG = doctor.DoctorJMBG;
-                        newDoctor.BankAccount = doctor.BankAccount;
-                        newDoctor.Username = doctor.Username;
-                        newDoctor.DoctorPassword = HashPasswordHelper.HashPassword(doctor.DoctorPassword);
-                        context.Doctors.Add(newDoctor);
-                        context.SaveChanges();
-                        doctor.DoctorId = newDoctor.DoctorId;
+                        if(uniqueUser)
+                        {
+                            vwDoctor newDoctor = new vwDoctor();
+                            newDoctor.Name = doctor.Name;
+                            newDoctor.Lastname = doctor.Lastname;
+                            newDoctor.DoctorJMBG = doctor.DoctorJMBG;
+                            newDoctor.BankAccount = doctor.BankAccount;
+                            newDoctor.Username = doctor.Username;
+                            newDoctor.DoctorPassword = HashPasswordHelper.HashPassword(doctor.DoctorPassword);
+                            context.vwDoctors.Add(newDoctor);
+                            context.SaveChanges();
+                            doctor.DoctorId = newDoctor.DoctorId;                           
+                        }
                         return doctor;
                     }
                     else
                     {
-                        Doctor editDoctor = (from p in context.Doctors where p.DoctorId == doctor.DoctorId select p).First();
+                        vwDoctor editDoctor = (from p in context.vwDoctors where p.DoctorId == doctor.DoctorId select p).First();
                         editDoctor.Name = doctor.Name;
                         editDoctor.Lastname = editDoctor.Lastname;
                         editDoctor.DoctorJMBG = doctor.DoctorJMBG;
@@ -143,6 +166,22 @@ namespace HospitalApp.Service
             {
                 System.Diagnostics.Debug.WriteLine("Exeption" + ex.Message.ToString());
                 return null;
+            }
+        }
+
+        public vwRequest GetOpenRequestByPatient(int patientId)
+        {
+            using (HospitalEntities3 context = new HospitalEntities3())
+            {
+                if(context.vwRequests==null)
+                {
+                    return null;
+                }
+                else
+                {
+                    vwRequest patientRequest = (from r in context.vwRequests where r.PatientId == patientId where r.IsApproved == null select r).FirstOrDefault();
+                    return patientRequest;
+                }                
             }
         }
 
@@ -231,14 +270,14 @@ namespace HospitalApp.Service
             }
         }
 
-        public Doctor LoginDoctor(string username, string password)
+        public vwDoctor LoginDoctor(string username, string password)
         {
             password = HashPasswordHelper.HashPassword(password);
             try
             {
                 using(HospitalEntities3 context = new HospitalEntities3())
                 {
-                    Doctor doctor = (from d in context.Doctors 
+                    vwDoctor doctor = (from d in context.vwDoctors 
                                      where d.Username.Equals(username) where d.DoctorPassword.Equals(password) select d).First();
                     return doctor;
                 }
@@ -250,18 +289,19 @@ namespace HospitalApp.Service
             }
         }
 
-        public Patient LoginPatient(string username, string password)
+        public vwPatient LoginPatient(string username, string password)
         {
+            password = HashPasswordHelper.HashPassword(password);
             try
             {
                 using (HospitalEntities3 context = new HospitalEntities3())
                 {
-                    Patient patient = (from p in context.Patients
+                    vwPatient patient = (from p in context.vwPatients
                                      where p.Username.Equals(username)
-                                     where p.PatientPassword.Equals(HashPasswordHelper.HashPassword(password))
+                                     where p.PatientPassword.Equals(password)
                                      select p).First();
                     return patient;
-                }
+                }              
             }
             catch (Exception ex)
             {

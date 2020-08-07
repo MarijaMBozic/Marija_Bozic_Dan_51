@@ -7,6 +7,86 @@
         mc:Ignorable="d"
         Title="PatientWindow" Height="450" Width="800">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="6"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="6"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Column="1" Grid.Row="1" Name="lblName" Content="Full name:" Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="3" Grid.Row="1" Name="txtName" Content="{Binding Patient.Fullname}" Padding="0" HorizontalAlignment="Left"/>
+        <Label Grid.Column="1" Grid.Row="3" Name="lblDoctor" Content="Choose doctor:" Padding="0" HorizontalAlignment="Right"
+               Visibility="{Binding ViewComBox, UpdateSourceTrigger=PropertyChanged}"/>        
+        <ComboBox Grid.Column="3" Grid.Row="3" Name="cmbDoctor" Height="20" Width="150" DisplayMemberPath="Name" IsEditable="True"
+                  ItemsSource="{Binding DoctorList, UpdateSourceTrigger=PropertyChanged}"
+                  Visibility="{Binding ViewComBox, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding SelectedDoctor, UpdateSourceTrigger=PropertyChanged}"/>
+        <Button Grid.Column="3" Grid.Row="5" Name="btnSave" Content="Save" Height="20" 
+                Width="70" HorizontalAlignment="Left"
+                Visibility="{Binding ViewComBox, UpdateSourceTrigger=PropertyChanged}"
+                Command="{Binding UpdatePatient, UpdateSourceTrigger=PropertyChanged}"/>
+        <Grid Grid.Row="3" Grid.Column="3" Grid.RowSpan="11"
+              Visibility="{Binding ViewRequest, UpdateSourceTrigger=PropertyChanged}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="6"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="6"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="20"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="6"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="6"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="6"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="6"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="6"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="6"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="20"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Column="1" Grid.Row="1" Name="lblDate" Content="Date:" Padding="0" HorizontalAlignment="Right"/>
+            <Label Grid.Column="1" Grid.Row="3" Name="lblReason" Content="Reason:" Padding="0" HorizontalAlignment="Right"/>
+            <Label Grid.Column="1" Grid.Row="5" Name="lblCompany" Content="Company:" Padding="0" HorizontalAlignment="Right"/>
+            <Label Grid.Column="1" Grid.Row="7" Name="lblIsUrgent" Content="Urgent:" Padding="0" HorizontalAlignment="Right"/>           
+            <DatePicker Grid.Column="3" Grid.Row="1" Name="txtDate" Height="25" Width="150" 
+                 Text="{Binding Request.Date, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Grid.Column="3" Grid.Row="3" Name="txtLastname" Height="20" Width="150" 
+                 Text="{Binding Request.Reason, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Grid.Column="3" Grid.Row="5" Name="txtDoctorJMBG" Height="20" Width="150" 
+                 Text="{Binding Request.Company, UpdateSourceTrigger=PropertyChanged}"/>
+            <CheckBox Grid.Column="3" Grid.Row="7" Name="txtBankAccount" Height="20" Width="150" 
+                 IsChecked="{Binding Request.IsUrgent, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Grid.Column="3" Grid.Row="13" Name="btnSaveRequest" Content="Submit request" Height="20" 
+                Width="100" HorizontalAlignment="Center" Command="{Binding SaveRequest, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
     </Grid>
 </Window>

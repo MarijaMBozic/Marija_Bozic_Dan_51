@@ -16,6 +16,7 @@ namespace HospitalApp.ViewModel
     public class MainWindowViewModel:ViewModelBase
     {
         MainWindow main;
+        AddDoctor addDoctorWindow;
         #region Constructor
 
         public MainWindowViewModel(MainWindow mainOpen)
@@ -65,10 +66,10 @@ namespace HospitalApp.ViewModel
                 var password = passwordBox.Password;
                 ServiceCode service = new ServiceCode();
 
-                Doctor doctor = service.LoginDoctor(Username, password);
+                vwDoctor doctor = service.LoginDoctor(Username, password);
                 if(doctor==null)
                 {
-                    Patient patient = service.LoginPatient(Username, password);
+                    vwPatient patient = service.LoginPatient(Username, password);
 
                     if (patient == null)
                     {
@@ -76,9 +77,10 @@ namespace HospitalApp.ViewModel
                     }
                     else
                     {
-                        //PactientViewModel viewModel = new PactientViewModel(doctor);
-                        //PatientWindow window = new PatientWindow(viewModel);
-                        //window.Show();
+                        PatientViewModel viewModel = new PatientViewModel(patient);
+                        PatientWindow patientWindow = new PatientWindow(viewModel);
+                        patientWindow.Show();
+                        main.Close();
                     }
                 }
                 else
@@ -96,6 +98,70 @@ namespace HospitalApp.ViewModel
         }
 
         private bool CanLoginExecute()
+        {
+            return true;
+        }
+
+        private ICommand registrationDoctor;
+        public ICommand RegistrationDoctor
+        {
+            get
+            {
+                if (registrationDoctor == null)
+                {
+                    registrationDoctor = new RelayCommand(param => RegistrationDoctorExecute(), param => CanRegistrationDoctorExecute());
+                }
+                return registrationDoctor;
+            }
+        }
+
+        private void RegistrationDoctorExecute()
+        {
+            try
+            {
+                addDoctorWindow = new AddDoctor();
+                addDoctorWindow.Show();
+                main.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private bool CanRegistrationDoctorExecute()
+        {
+            return true;
+        }
+
+        private ICommand registrationPatient;
+        public ICommand RegistrationPatient
+        {
+            get
+            {
+                if (registrationPatient == null)
+                {
+                    registrationPatient = new RelayCommand(param => RegistrationPatientExecute(), param => CanRegistrationPatientExecute());
+                }
+                return registrationPatient;
+            }
+        }
+
+        private void RegistrationPatientExecute()
+        {
+            try
+            {
+                AddPatientView addPatientWindow = new AddPatientView();
+                addPatientWindow.Show();
+                main.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private bool CanRegistrationPatientExecute()
         {
             return true;
         }

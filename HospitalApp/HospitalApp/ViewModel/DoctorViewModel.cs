@@ -12,14 +12,14 @@ namespace HospitalApp.ViewModel
     {
       
         #region Constructor
-        public DoctorViewModel(Doctor doctor)
+        public DoctorViewModel(vwDoctor doctor)
         {
             this.doctor = doctor;
         }
         #endregion
         #region Property
-        private Doctor doctor;
-        public Doctor Doctor
+        private vwDoctor doctor;
+        public vwDoctor Doctor
         {
             get
             {

@@ -1,0 +1,56 @@
+﻿<Window x:Class="HospitalApp.Views.AddPatientView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HospitalApp.Views"
+        mc:Ignorable="d"
+        Title="AddPatientView" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="6"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="6"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Column="1" Grid.Row="1" Name="lblFullName" Content="Full name:" Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="5" Name="lblDoctorJMBG" Content="JMBG:" Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="7" Name="lblNumInsurance" Content="Number of Insurance:" Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="9" Name="lblUsername" Content="Username:" Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="11" Name="lblPassword" Content="Password:" Padding="0" HorizontalAlignment="Right"/>
+
+        <TextBox Grid.Column="3" Grid.Row="1" Name="txtFullName" Height="20" Width="150" 
+                 Text="{Binding Patient.Fullname, UpdateSourceTrigger=PropertyChanged}"/>
+       
+        <TextBox Grid.Column="3" Grid.Row="5" Name="txtPatientJMBG" Height="20" Width="150" 
+                 Text="{Binding Patient.PatientJMBG, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="3" Grid.Row="7" Name="txtNumInsurace" Height="20" Width="150" 
+                 Text="{Binding Patient.NumInsurce, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="3" Grid.Row="9" Name="txtUsername" Height="20" Width="150" 
+                 Text="{Binding Patient.Username, UpdateSourceTrigger=PropertyChanged}"/>
+        <PasswordBox Grid.Column="3" Grid.Row="11" Name="txtPassword" Height="20" Width="150"/>
+        <Button Grid.Column="3" Grid.Row="13" Name="btnSave" Content="Register" Height="20" 
+                Width="70" HorizontalAlignment="Left" Command="{Binding SavePatient, UpdateSourceTrigger=PropertyChanged}"
+                CommandParameter="{Binding ElementName=txtPassword}"/>
+    </Grid>
+</Window>

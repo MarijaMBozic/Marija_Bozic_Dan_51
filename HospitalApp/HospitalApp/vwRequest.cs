@@ -21,7 +21,7 @@ namespace HospitalApp
         public Nullable<bool> IsUrgent { get; set; }
         public Nullable<bool> IsApproved { get; set; }
         public int PatientId { get; set; }
-        public int DoctorId { get; set; }
+        public Nullable<int> DoctorId { get; set; }
         public int Expr1 { get; set; }
         public int Expr2 { get; set; }
     }

@@ -14,6 +14,8 @@
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="6"/>
             <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="6"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -43,5 +45,12 @@
         <Button Grid.Column="5" Grid.Row="13" Name="btnLogin" Content="Login" Height="20" 
                 Width="70" HorizontalAlignment="Left" Command="{Binding Login, UpdateSourceTrigger=PropertyChanged}"
                 CommandParameter="{Binding ElementName=txtPassword}"/>
+        <Button Grid.Column="7" Grid.Row="5" Name="btnRegistationD" Content="Registration Doctor" Height="20" 
+                Width="110" HorizontalAlignment="Left" Command="{Binding RegistrationDoctor, UpdateSourceTrigger=PropertyChanged}"
+               />
+        <Button Grid.Column="7" Grid.Row="7" Name="btnRegistationP" Content="Registration Patient" Height="20" 
+                Width="110" HorizontalAlignment="Left" Command="{Binding RegistrationPatient, UpdateSourceTrigger=PropertyChanged}"
+               />
+        
     </Grid>
 </Window>
