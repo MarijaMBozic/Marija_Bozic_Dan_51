@@ -10,8 +10,7 @@
             <PropertyRef Name="DoctorId" />
           </Key>
           <Property Name="DoctorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="Lastname" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="DoctorJMBG" Type="nvarchar" MaxLength="13" Nullable="false" />
           <Property Name="BankAccount" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Username" Type="nvarchar" MaxLength="100" Nullable="false" />
@@ -34,29 +33,27 @@
             <PropertyRef Name="RequestId" />
           </Key>
           <Property Name="RequestId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Date" Type="date" />
           <Property Name="Reason" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Company" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="IsUrgent" Type="bit" />
           <Property Name="IsApproved" Type="bit" />
           <Property Name="PatientId" Type="int" Nullable="false" />
-          <Property Name="DoctorId" Type="int" Nullable="false" />
+          <Property Name="DoctorId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'Hospital.dbo.vwDoctor' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwDoctor">
           <Key>
             <PropertyRef Name="DoctorId" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="Lastname" />
+            <PropertyRef Name="FullName" />
             <PropertyRef Name="DoctorJMBG" />
             <PropertyRef Name="BankAccount" />
             <PropertyRef Name="Username" />
             <PropertyRef Name="DoctorPassword" />
           </Key>
           <Property Name="DoctorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="Lastname" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="DoctorJMBG" Type="nvarchar" MaxLength="13" Nullable="false" />
           <Property Name="BankAccount" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Username" Type="nvarchar" MaxLength="100" Nullable="false" />
@@ -86,26 +83,26 @@ warning 6002: The table/view 'Hospital.dbo.vwRequest' does not have a primary ke
         <EntityType Name="vwRequest">
           <Key>
             <PropertyRef Name="RequestId" />
-            <PropertyRef Name="Date" />
             <PropertyRef Name="Reason" />
             <PropertyRef Name="Company" />
             <PropertyRef Name="PatientId" />
-            <PropertyRef Name="DoctorId" />
-            <PropertyRef Name="Expr1" />
             <PropertyRef Name="Expr2" />
+            <PropertyRef Name="Expr1" />
+            <PropertyRef Name="Expr3" />
           </Key>
           <Property Name="RequestId" Type="int" Nullable="false" />
-          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Date" Type="date" />
           <Property Name="Reason" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Company" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="IsUrgent" Type="bit" />
           <Property Name="IsApproved" Type="bit" />
           <Property Name="PatientId" Type="int" Nullable="false" />
-          <Property Name="DoctorId" Type="int" Nullable="false" />
-          <Property Name="Expr1" Type="int" Nullable="false" />
-          <Property Name="Expr2" Type="int" Nullable="false" />
+          <Property Name="DoctorId" Type="int" />
+          <Property Name="Expr2" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Expr1" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Expr3" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
-        <Association Name="FK__Patient__DoctorI__5CA1C101">
+        <Association Name="FK__Patient__DoctorI__43A1090D">
           <End Role="Doctor" Type="Self.Doctor" Multiplicity="0..1" />
           <End Role="Patient" Type="Self.Patient" Multiplicity="*" />
           <ReferentialConstraint>
@@ -117,8 +114,8 @@ warning 6002: The table/view 'Hospital.dbo.vwRequest' does not have a primary ke
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Request__DoctorI__607251E5">
-          <End Role="Doctor" Type="Self.Doctor" Multiplicity="1" />
+        <Association Name="FK__Request__DoctorI__4959E263">
+          <End Role="Doctor" Type="Self.Doctor" Multiplicity="0..1" />
           <End Role="Request" Type="Self.Request" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Doctor">
@@ -129,7 +126,7 @@ warning 6002: The table/view 'Hospital.dbo.vwRequest' does not have a primary ke
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Request__Patient__5F7E2DAC">
+        <Association Name="FK__Request__Patient__4865BE2A">
           <End Role="Patient" Type="Self.Patient" Multiplicity="1" />
           <End Role="Request" Type="Self.Request" Multiplicity="*" />
           <ReferentialConstraint>
@@ -148,8 +145,7 @@ warning 6002: The table/view 'Hospital.dbo.vwRequest' does not have a primary ke
           <EntitySet Name="vwDoctor" EntityType="Self.vwDoctor" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vwDoctor].[DoctorId] AS [DoctorId], 
-    [vwDoctor].[Name] AS [Name], 
-    [vwDoctor].[Lastname] AS [Lastname], 
+    [vwDoctor].[FullName] AS [FullName], 
     [vwDoctor].[DoctorJMBG] AS [DoctorJMBG], 
     [vwDoctor].[BankAccount] AS [BankAccount], 
     [vwDoctor].[Username] AS [Username], 
@@ -177,19 +173,20 @@ warning 6002: The table/view 'Hospital.dbo.vwRequest' does not have a primary ke
     [vwRequest].[IsApproved] AS [IsApproved], 
     [vwRequest].[PatientId] AS [PatientId], 
     [vwRequest].[DoctorId] AS [DoctorId], 
+    [vwRequest].[Expr2] AS [Expr2], 
     [vwRequest].[Expr1] AS [Expr1], 
-    [vwRequest].[Expr2] AS [Expr2]
+    [vwRequest].[Expr3] AS [Expr3]
     FROM [dbo].[vwRequest] AS [vwRequest]</DefiningQuery>
           </EntitySet>
-          <AssociationSet Name="FK__Patient__DoctorI__5CA1C101" Association="Self.FK__Patient__DoctorI__5CA1C101">
+          <AssociationSet Name="FK__Patient__DoctorI__43A1090D" Association="Self.FK__Patient__DoctorI__43A1090D">
             <End Role="Doctor" EntitySet="Doctor" />
             <End Role="Patient" EntitySet="Patient" />
           </AssociationSet>
-          <AssociationSet Name="FK__Request__DoctorI__607251E5" Association="Self.FK__Request__DoctorI__607251E5">
+          <AssociationSet Name="FK__Request__DoctorI__4959E263" Association="Self.FK__Request__DoctorI__4959E263">
             <End Role="Doctor" EntitySet="Doctor" />
             <End Role="Request" EntitySet="Request" />
           </AssociationSet>
-          <AssociationSet Name="FK__Request__Patient__5F7E2DAC" Association="Self.FK__Request__Patient__5F7E2DAC">
+          <AssociationSet Name="FK__Request__Patient__4865BE2A" Association="Self.FK__Request__Patient__4865BE2A">
             <End Role="Patient" EntitySet="Patient" />
             <End Role="Request" EntitySet="Request" />
           </AssociationSet>
@@ -204,14 +201,13 @@ warning 6002: The table/view 'Hospital.dbo.vwRequest' does not have a primary ke
             <PropertyRef Name="DoctorId" />
           </Key>
           <Property Name="DoctorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Lastname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DoctorJMBG" Type="String" MaxLength="13" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="BankAccount" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Username" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DoctorPassword" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Patients" Relationship="Self.FK__Patient__DoctorI__5CA1C101" FromRole="Doctor" ToRole="Patient" />
-          <NavigationProperty Name="Requests" Relationship="Self.FK__Request__DoctorI__607251E5" FromRole="Doctor" ToRole="Request" />
+          <NavigationProperty Name="Patients" Relationship="Self.FK__Patient__DoctorI__43A1090D" FromRole="Doctor" ToRole="Patient" />
+          <NavigationProperty Name="Requests" Relationship="Self.FK__Request__DoctorI__4959E263" FromRole="Doctor" ToRole="Request" />
         </EntityType>
         <EntityType Name="Patient">
           <Key>
@@ -224,37 +220,35 @@ warning 6002: The table/view 'Hospital.dbo.vwRequest' does not have a primary ke
           <Property Name="Username" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PatientPassword" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DoctorId" Type="Int32" />
-          <NavigationProperty Name="Doctor" Relationship="Self.FK__Patient__DoctorI__5CA1C101" FromRole="Patient" ToRole="Doctor" />
-          <NavigationProperty Name="Requests" Relationship="Self.FK__Request__Patient__5F7E2DAC" FromRole="Patient" ToRole="Request" />
+          <NavigationProperty Name="Doctor" Relationship="Self.FK__Patient__DoctorI__43A1090D" FromRole="Patient" ToRole="Doctor" />
+          <NavigationProperty Name="Requests" Relationship="Self.FK__Request__Patient__4865BE2A" FromRole="Patient" ToRole="Request" />
         </EntityType>
         <EntityType Name="Request">
           <Key>
             <PropertyRef Name="RequestId" />
           </Key>
           <Property Name="RequestId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
           <Property Name="Reason" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Company" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IsUrgent" Type="Boolean" />
           <Property Name="IsApproved" Type="Boolean" />
           <Property Name="PatientId" Type="Int32" Nullable="false" />
-          <Property Name="DoctorId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Doctor" Relationship="Self.FK__Request__DoctorI__607251E5" FromRole="Request" ToRole="Doctor" />
-          <NavigationProperty Name="Patient" Relationship="Self.FK__Request__Patient__5F7E2DAC" FromRole="Request" ToRole="Patient" />
+          <Property Name="DoctorId" Type="Int32" />
+          <NavigationProperty Name="Doctor" Relationship="Self.FK__Request__DoctorI__4959E263" FromRole="Request" ToRole="Doctor" />
+          <NavigationProperty Name="Patient" Relationship="Self.FK__Request__Patient__4865BE2A" FromRole="Request" ToRole="Patient" />
         </EntityType>
         <EntityType Name="vwDoctor">
           <Key>
             <PropertyRef Name="DoctorId" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="Lastname" />
+            <PropertyRef Name="FullName" />
             <PropertyRef Name="DoctorJMBG" />
             <PropertyRef Name="BankAccount" />
             <PropertyRef Name="Username" />
             <PropertyRef Name="DoctorPassword" />
           </Key>
           <Property Name="DoctorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Lastname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DoctorJMBG" Type="String" MaxLength="13" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="BankAccount" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Username" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
@@ -280,26 +274,26 @@ warning 6002: The table/view 'Hospital.dbo.vwRequest' does not have a primary ke
         <EntityType Name="vwRequest">
           <Key>
             <PropertyRef Name="RequestId" />
-            <PropertyRef Name="Date" />
             <PropertyRef Name="Reason" />
             <PropertyRef Name="Company" />
             <PropertyRef Name="PatientId" />
-            <PropertyRef Name="DoctorId" />
-            <PropertyRef Name="Expr1" />
             <PropertyRef Name="Expr2" />
+            <PropertyRef Name="Expr1" />
+            <PropertyRef Name="Expr3" />
           </Key>
           <Property Name="RequestId" Type="Int32" Nullable="false" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
           <Property Name="Reason" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Company" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IsUrgent" Type="Boolean" />
           <Property Name="IsApproved" Type="Boolean" />
           <Property Name="PatientId" Type="Int32" Nullable="false" />
-          <Property Name="DoctorId" Type="Int32" Nullable="false" />
-          <Property Name="Expr1" Type="Int32" Nullable="false" />
-          <Property Name="Expr2" Type="Int32" Nullable="false" />
+          <Property Name="DoctorId" Type="Int32" />
+          <Property Name="Expr2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Expr1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Expr3" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
-        <Association Name="FK__Patient__DoctorI__5CA1C101">
+        <Association Name="FK__Patient__DoctorI__43A1090D">
           <End Role="Doctor" Type="Self.Doctor" Multiplicity="0..1" />
           <End Role="Patient" Type="Self.Patient" Multiplicity="*" />
           <ReferentialConstraint>
@@ -311,8 +305,8 @@ warning 6002: The table/view 'Hospital.dbo.vwRequest' does not have a primary ke
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Request__DoctorI__607251E5">
-          <End Role="Doctor" Type="Self.Doctor" Multiplicity="1" />
+        <Association Name="FK__Request__DoctorI__4959E263">
+          <End Role="Doctor" Type="Self.Doctor" Multiplicity="0..1" />
           <End Role="Request" Type="Self.Request" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Doctor">
@@ -323,7 +317,7 @@ warning 6002: The table/view 'Hospital.dbo.vwRequest' does not have a primary ke
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Request__Patient__5F7E2DAC">
+        <Association Name="FK__Request__Patient__4865BE2A">
           <End Role="Patient" Type="Self.Patient" Multiplicity="1" />
           <End Role="Request" Type="Self.Request" Multiplicity="*" />
           <ReferentialConstraint>
@@ -335,22 +329,22 @@ warning 6002: The table/view 'Hospital.dbo.vwRequest' does not have a primary ke
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="HospitalEntities3" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="HospitalEntities5" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Doctors" EntityType="Self.Doctor" />
           <EntitySet Name="Patients" EntityType="Self.Patient" />
           <EntitySet Name="Requests" EntityType="Self.Request" />
           <EntitySet Name="vwDoctors" EntityType="Self.vwDoctor" />
           <EntitySet Name="vwPatients" EntityType="Self.vwPatient" />
           <EntitySet Name="vwRequests" EntityType="Self.vwRequest" />
-          <AssociationSet Name="FK__Patient__DoctorI__5CA1C101" Association="Self.FK__Patient__DoctorI__5CA1C101">
+          <AssociationSet Name="FK__Patient__DoctorI__43A1090D" Association="Self.FK__Patient__DoctorI__43A1090D">
             <End Role="Doctor" EntitySet="Doctors" />
             <End Role="Patient" EntitySet="Patients" />
           </AssociationSet>
-          <AssociationSet Name="FK__Request__DoctorI__607251E5" Association="Self.FK__Request__DoctorI__607251E5">
+          <AssociationSet Name="FK__Request__DoctorI__4959E263" Association="Self.FK__Request__DoctorI__4959E263">
             <End Role="Doctor" EntitySet="Doctors" />
             <End Role="Request" EntitySet="Requests" />
           </AssociationSet>
-          <AssociationSet Name="FK__Request__Patient__5F7E2DAC" Association="Self.FK__Request__Patient__5F7E2DAC">
+          <AssociationSet Name="FK__Request__Patient__4865BE2A" Association="Self.FK__Request__Patient__4865BE2A">
             <End Role="Patient" EntitySet="Patients" />
             <End Role="Request" EntitySet="Requests" />
           </AssociationSet>
@@ -360,13 +354,12 @@ warning 6002: The table/view 'Hospital.dbo.vwRequest' does not have a primary ke
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="HospitalModelStoreContainer" CdmEntityContainer="HospitalEntities3">
+        <EntityContainerMapping StorageEntityContainer="HospitalModelStoreContainer" CdmEntityContainer="HospitalEntities5">
           <EntitySetMapping Name="Doctors">
             <EntityTypeMapping TypeName="HospitalModel.Doctor">
               <MappingFragment StoreEntitySet="Doctor">
                 <ScalarProperty Name="DoctorId" ColumnName="DoctorId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
                 <ScalarProperty Name="DoctorJMBG" ColumnName="DoctorJMBG" />
                 <ScalarProperty Name="BankAccount" ColumnName="BankAccount" />
                 <ScalarProperty Name="Username" ColumnName="Username" />
@@ -405,8 +398,7 @@ warning 6002: The table/view 'Hospital.dbo.vwRequest' does not have a primary ke
             <EntityTypeMapping TypeName="HospitalModel.vwDoctor">
               <MappingFragment StoreEntitySet="vwDoctor">
                 <ScalarProperty Name="DoctorId" ColumnName="DoctorId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
                 <ScalarProperty Name="DoctorJMBG" ColumnName="DoctorJMBG" />
                 <ScalarProperty Name="BankAccount" ColumnName="BankAccount" />
                 <ScalarProperty Name="Username" ColumnName="Username" />
@@ -438,8 +430,9 @@ warning 6002: The table/view 'Hospital.dbo.vwRequest' does not have a primary ke
                 <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
                 <ScalarProperty Name="PatientId" ColumnName="PatientId" />
                 <ScalarProperty Name="DoctorId" ColumnName="DoctorId" />
-                <ScalarProperty Name="Expr1" ColumnName="Expr1" />
                 <ScalarProperty Name="Expr2" ColumnName="Expr2" />
+                <ScalarProperty Name="Expr1" ColumnName="Expr1" />
+                <ScalarProperty Name="Expr3" ColumnName="Expr3" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

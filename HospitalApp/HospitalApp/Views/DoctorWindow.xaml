@@ -4,8 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HospitalApp.Views"
+        xmlns:converters="clr-namespace:HospitalApp.Converters" 
         mc:Ignorable="d"
         Title="DoctorWindow" Height="450" Width="800">
+    <Window.Resources>
+        <ResourceDictionary>
+            <converters:RequestAprovedVisibilityConverter x:Key="RequestAprovedVisibilityConverter" />
+            <converters:RequestAprovedToStringConverter x:Key="RequestAprovedToStringConverter" />
+            <converters:RequestToEnabledConverter x:Key="RequestToEnabledConverter" />
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -14,7 +22,12 @@
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="6"/>
             <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="6"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="6"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="155.667"/>
+            <ColumnDefinition Width="171.333"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
@@ -31,11 +44,48 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="6"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-        <Label Grid.Column="1" Grid.Row="1" Name="lblName" Content="Name:" Padding="0" HorizontalAlignment="Right"/>
-        <Label Grid.Column="1" Grid.Row="3" Name="lblLastname" Content="Lastname:" Padding="0" HorizontalAlignment="Right"/>
-        <Label Grid.Column="3" Grid.Row="1" Name="txtName" Content="{Binding Doctor.Name}" Padding="0" HorizontalAlignment="Right"/>
-        <Label Grid.Column="3" Grid.Row="3" Name="txtLastname" Content="{Binding Doctor.Lastname}" Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="1" Name="lblName" Content="User:" Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="3" Grid.Row="1" Name="txtName" Content="{Binding Doctor.FullName}" Padding="0" HorizontalAlignment="Right" Margin="0,0,7,0"/>
+        <Button Grid.Column="12" Grid.Row="1" Name="btnLogOut" Content="LogOut" Width="70" Height="20"
+                Command="{Binding LogOutDoctor, UpdateSourceTrigger=PropertyChanged}"
+                FontWeight="Bold" Margin="5,1,0,0" HorizontalAlignment="Left"/>
+        <DataGrid Grid.Column="9" Grid.Row="5" Grid.RowSpan="5" Name="DataGridResults" ItemsSource="{Binding RequestList, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding SelectedRequest, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" HeadersVisibility="Column"
+                      AutoGenerateColumns="False" HorizontalGridLinesBrush="Black" BorderBrush="Black" Foreground="Black" FontWeight="Bold" Grid.ColumnSpan="3">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="70"/>
+                <DataGridTextColumn Header="Reason" Binding="{Binding Reason}"/>
+                <DataGridTextColumn Header="Patient" Binding="{Binding Expr2}"/>
+                <DataGridTemplateColumn Header="Approve/Rejact" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Width="150" Orientation="Horizontal">
+                                <Label Content="{Binding IsApproved, Converter={StaticResource RequestAprovedToStringConverter}}" Visibility="{Binding ViewAprInformation, UpdateSourceTrigger=PropertyChanged}" />
+                                <Button Name="btnAprRequest" Content="Approve" Width="60" Height="20"
+                                        Click="btnAprRequest_Click"  FontWeight="Bold" Margin="0" HorizontalAlignment="Right"
+                                        Visibility="{Binding IsApproved, Converter={StaticResource RequestAprovedVisibilityConverter}}"/>
+                                <Button Name="btnUnAprRequest" Content="Rejact" Width="70" Height="20"
+                                        Click="btnUnAprRequest_Click" FontWeight="Bold" Margin="5,0,0,0" HorizontalAlignment="Left"
+                                        Visibility="{Binding IsApproved, Converter={StaticResource RequestAprovedVisibilityConverter}}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Delete" Width="60">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <Button Name="btnDeleteRequest" Content="Delete" Width="50" Height="20" IsEnabled="{Binding IsApproved, Converter={StaticResource RequestToEnabledConverter}}"
+                                        Click="btnDeleteRequest_Click" FontWeight="Bold" HorizontalAlignment="Right"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

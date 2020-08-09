@@ -4,11 +4,23 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HospitalApp.Views"
+        xmlns:converters="clr-namespace:HospitalApp.Converters" 
         mc:Ignorable="d"
         Title="PatientWindow" Height="450" Width="800">
+    <Window.Resources>
+        <ResourceDictionary>
+            <converters:RequestAprovedToStringConverter x:Key="RequestAprovedToStringConverter" />
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="6"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="6"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="6"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="6"/>
             <ColumnDefinition Width="auto"/>
@@ -33,11 +45,14 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
+        <Button Grid.Column="7" Grid.Row="1" Name="btnLogOut" Content="LogOut" Width="70" Height="20"
+                Command="{Binding LogOutPatient, UpdateSourceTrigger=PropertyChanged}"
+                FontWeight="Bold" Margin="5,1,0,0" HorizontalAlignment="Left"/>
         <Label Grid.Column="1" Grid.Row="1" Name="lblName" Content="Full name:" Padding="0" HorizontalAlignment="Right"/>
         <Label Grid.Column="3" Grid.Row="1" Name="txtName" Content="{Binding Patient.Fullname}" Padding="0" HorizontalAlignment="Left"/>
         <Label Grid.Column="1" Grid.Row="3" Name="lblDoctor" Content="Choose doctor:" Padding="0" HorizontalAlignment="Right"
                Visibility="{Binding ViewComBox, UpdateSourceTrigger=PropertyChanged}"/>        
-        <ComboBox Grid.Column="3" Grid.Row="3" Name="cmbDoctor" Height="20" Width="150" DisplayMemberPath="Name" IsEditable="True"
+        <ComboBox Grid.Column="3" Grid.Row="3" Name="cmbDoctor" Height="20" Width="150" DisplayMemberPath="FullName" IsEditable="True"
                   ItemsSource="{Binding DoctorList, UpdateSourceTrigger=PropertyChanged}"
                   Visibility="{Binding ViewComBox, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding SelectedDoctor, UpdateSourceTrigger=PropertyChanged}"/>
@@ -78,15 +93,24 @@
             <Label Grid.Column="1" Grid.Row="5" Name="lblCompany" Content="Company:" Padding="0" HorizontalAlignment="Right"/>
             <Label Grid.Column="1" Grid.Row="7" Name="lblIsUrgent" Content="Urgent:" Padding="0" HorizontalAlignment="Right"/>           
             <DatePicker Grid.Column="3" Grid.Row="1" Name="txtDate" Height="25" Width="150" 
-                 Text="{Binding Request.Date, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBox Grid.Column="3" Grid.Row="3" Name="txtLastname" Height="20" Width="150" 
+                 SelectedDate="{Binding Request.Date, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Grid.Column="3" Grid.Row="3" Name="txtReason" Height="20" Width="150" 
                  Text="{Binding Request.Reason, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBox Grid.Column="3" Grid.Row="5" Name="txtDoctorJMBG" Height="20" Width="150" 
+            <TextBox Grid.Column="3" Grid.Row="5" Name="txtCompany" Height="20" Width="150" 
                  Text="{Binding Request.Company, UpdateSourceTrigger=PropertyChanged}"/>
-            <CheckBox Grid.Column="3" Grid.Row="7" Name="txtBankAccount" Height="20" Width="150" 
+            <CheckBox Grid.Column="3" Grid.Row="7" Name="txtIsUrgent" Height="20" Width="150" 
                  IsChecked="{Binding Request.IsUrgent, UpdateSourceTrigger=PropertyChanged}"/>
             <Button Grid.Column="3" Grid.Row="13" Name="btnSaveRequest" Content="Submit request" Height="20" 
                 Width="100" HorizontalAlignment="Center" Command="{Binding SaveRequest, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
+        <DataGrid Grid.Column="7" Grid.Row="3" Grid.RowSpan="5" Name="DataGridResults" ItemsSource="{Binding RequestList, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding SelectedRequest, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" HeadersVisibility="Column"
+                      AutoGenerateColumns="False" HorizontalGridLinesBrush="Black" BorderBrush="Black" Foreground="Black" FontWeight="Bold" Grid.ColumnSpan="3">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="70"/>
+                <DataGridTextColumn Header="Reason" Binding="{Binding Reason}"/>
+                <DataGridTextColumn Header="Request status" Binding="{Binding IsApproved, Converter={StaticResource RequestAprovedToStringConverter}}"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

@@ -3,6 +3,7 @@ using HospitalApp.Service;
 using HospitalApp.Views;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
@@ -13,7 +14,7 @@ using System.Windows.Input;
 
 namespace HospitalApp.ViewModel
 {
-    public class MainWindowViewModel:ViewModelBase
+    public class MainWindowViewModel : ViewModelBase
     {
         MainWindow main;
         AddDoctor addDoctorWindow;
@@ -58,7 +59,7 @@ namespace HospitalApp.ViewModel
         }
 
         private void LoginExecute(object parametar)
-        {            
+        {
             //Doctor.DoctorPassword = password;
             try
             {
@@ -66,10 +67,10 @@ namespace HospitalApp.ViewModel
                 var password = passwordBox.Password;
                 ServiceCode service = new ServiceCode();
 
-                vwDoctor doctor = service.LoginDoctor(Username, password);
-                if(doctor==null)
+                Doctor doctor = service.LoginDoctor(Username, password);
+                if (doctor == null)
                 {
-                    vwPatient patient = service.LoginPatient(Username, password);
+                    Patient patient = service.LoginPatient(Username, password);
 
                     if (patient == null)
                     {
@@ -77,16 +78,16 @@ namespace HospitalApp.ViewModel
                     }
                     else
                     {
-                        PatientViewModel viewModel = new PatientViewModel(patient);
-                        PatientWindow patientWindow = new PatientWindow(viewModel);
+
+                        PatientWindow patientWindow = new PatientWindow(patient);
                         patientWindow.Show();
                         main.Close();
                     }
                 }
                 else
                 {
-                    DoctorViewModel viewModel = new DoctorViewModel(doctor);
-                    DoctorWindow window = new DoctorWindow(viewModel);
+                    // DoctorViewModel viewModel = new DoctorViewModel(doctor);
+                    DoctorWindow window = new DoctorWindow(doctor);
                     window.Show();
                     main.Close();
                 }

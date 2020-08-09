@@ -20,10 +20,28 @@ namespace HospitalApp.Views
     /// </summary>
     public partial class DoctorWindow : Window
     {
-        public DoctorWindow(DoctorViewModel viewModel)
+        DoctorViewModel viewModel;
+        public DoctorWindow(Doctor doctor)
         {
             InitializeComponent();
+            DoctorViewModel viewModel = new DoctorViewModel(doctor, this);
             this.DataContext = viewModel;
+            this.viewModel = viewModel;
+        }
+
+        private void btnAprRequest_Click(object sender, RoutedEventArgs e)
+        {
+            viewModel.AproveRequestExecute();
+        }
+
+        private void btnUnAprRequest_Click(object sender, RoutedEventArgs e)
+        {
+            viewModel.UnAproveRequestExecute();
+        }
+
+        private void btnDeleteRequest_Click(object sender, RoutedEventArgs e)
+        {
+            viewModel.DeleteRequestExecute();
         }
     }
 }

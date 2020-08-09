@@ -26,7 +26,7 @@ namespace HospitalApp.Views
             this.DataContext = new AddDoctorViewModels(this);
         }
 
-        public AddDoctor(vwDoctor doctorEdit)
+        public AddDoctor(Doctor doctorEdit)
         {
             InitializeComponent();
             this.DataContext = new AddDoctorViewModels(this, doctorEdit);

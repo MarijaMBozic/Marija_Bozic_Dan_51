@@ -15,8 +15,7 @@ namespace HospitalApp
     public partial class vwDoctor
     {
         public int DoctorId { get; set; }
-        public string Name { get; set; }
-        public string Lastname { get; set; }
+        public string FullName { get; set; }
         public string DoctorJMBG { get; set; }
         public string BankAccount { get; set; }
         public string Username { get; set; }

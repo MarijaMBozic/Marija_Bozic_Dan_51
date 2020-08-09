@@ -20,10 +20,13 @@ namespace HospitalApp.Views
     /// </summary>
     public partial class PatientWindow : Window
     {
-        public PatientWindow(PatientViewModel patientViewModel)
+        PatientViewModel viewModel;
+        public PatientWindow(Patient patient)
         {
             InitializeComponent();
-            this.DataContext = patientViewModel;
-        }
+            PatientViewModel viewModel = new PatientViewModel(patient, this);
+            this.DataContext = viewModel;
+            this.viewModel = viewModel;
+        }    
     }
 }

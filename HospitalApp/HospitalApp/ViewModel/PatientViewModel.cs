@@ -1,5 +1,6 @@
 ﻿using HospitalApp.Commands;
 using HospitalApp.Service;
+using HospitalApp.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,18 +12,20 @@ namespace HospitalApp.ViewModel
 {
     public class PatientViewModel:ViewModelBase
     {
-
         ServiceCode service = new ServiceCode();
+        PatientWindow patientWindow;
         #region Constructor
 
-        public PatientViewModel(vwPatient patient)
+        public PatientViewModel(Patient patient, PatientWindow patientWindow)
         {
             this.patient = patient;
+            this.patientWindow = patientWindow;
             List<vwDoctor> listDoc= service.GetAllDoctors();
-            List<vwRequest> listPatientRequests = service.GetAllRequestByPatient(patient.PatientId);
-            OpenRequest = service.GetOpenRequestByPatient(patient.PatientId);
+            RequestList = new ObservableCollection<vwRequest>(service.GetAllRequestByPatient(patient.PatientId));
             DoctorList = new ObservableCollection<vwDoctor>(listDoc);
+            CheckOpenRequest(RequestList);
         }
+
         #endregion
 
         #region Property
@@ -38,7 +41,6 @@ namespace HospitalApp.ViewModel
                 return Visibility.Visible;
             }
         }
-
         public Visibility ViewComBox
         {
             get
@@ -52,8 +54,8 @@ namespace HospitalApp.ViewModel
             
         }
 
-        private vwPatient patient;
-        public vwPatient Patient
+        private Patient patient;
+        public Patient Patient
         {
             get
             {
@@ -66,7 +68,7 @@ namespace HospitalApp.ViewModel
             }
         }
 
-        private vwRequest request;
+        private vwRequest request= new vwRequest();
         public vwRequest Request
         {
             get
@@ -77,6 +79,20 @@ namespace HospitalApp.ViewModel
             {
                 request = value;
                 OnPropertyChanged("Request");
+            }
+        }
+
+        private ObservableCollection<vwRequest> requestList;
+        public ObservableCollection<vwRequest> RequestList
+        {
+            get
+            {
+                return requestList;
+            }
+            set
+            {
+                requestList = value;
+                OnPropertyChanged("RequestList");
             }
         }
 
@@ -107,8 +123,8 @@ namespace HospitalApp.ViewModel
             }
         }
 
-        private vwRequest openRequest;
-        public vwRequest OpenRequest
+        private bool openRequest;
+        public bool OpenRequest
         {
             get
             {
@@ -117,6 +133,7 @@ namespace HospitalApp.ViewModel
             set
             {
                 openRequest = value;
+                OnPropertyChanged("OpenRequest");
             }
         }
 
@@ -174,6 +191,7 @@ namespace HospitalApp.ViewModel
                 {
                     isUpdatePatient = true;
                     OnPropertyChanged("ViewComBox");
+                    OnPropertyChanged("ViewRequest");
                 }
             }
             catch (Exception ex)
@@ -203,13 +221,15 @@ namespace HospitalApp.ViewModel
 
         private void RequestExecute()
         {
-            Request.PatientId = patient.PatientId;
-            Request.DoctorId = patient.DoctorId;
+            request.PatientId = patient.PatientId;
+            request.DoctorId = patient.DoctorId;
             try
             {
-                if (service.AddRequest(Request) != null)
+                if (service.AddRequest(request) != null)
                 {
-                    isUpdateRequest = true;                    
+                    RequestList = new ObservableCollection<vwRequest>(service.GetAllRequestByPatient(patient.PatientId));
+                    CheckOpenRequest(RequestList);
+                    ResetRequestFilds();
                 }
             }
             catch (Exception ex)
@@ -220,7 +240,7 @@ namespace HospitalApp.ViewModel
 
         private bool CanRequestExecute()
         {
-            if(OpenRequest!=null)
+            if(OpenRequest==true)
             {
                 return false;
             }
@@ -228,6 +248,60 @@ namespace HospitalApp.ViewModel
             {                
                 return true;
             }
+        }
+                
+        private ICommand logOutPatient;
+
+        public ICommand LogOutPatient
+        {
+            get
+            {
+                if (logOutPatient == null)
+                {
+                    logOutPatient = new RelayCommand(param => LogOutPatientExecute(), param => CanLogOutPatientExecute());
+                }
+                return logOutPatient;
+            }
+        }
+
+        public void LogOutPatientExecute()
+        {
+            try
+            {
+                MainWindow main = new MainWindow();
+                main.Show();
+                patientWindow.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private bool CanLogOutPatientExecute()
+        {
+            return true;
+        }
+
+        private void CheckOpenRequest(ObservableCollection<vwRequest> listRequest)
+        {
+            foreach (var r in listRequest)
+            {
+                if (r.IsApproved == null)
+                {
+                    OpenRequest = true;
+                    break;
+                }
+            }
+        }
+
+        private void ResetRequestFilds()
+        {
+            request.Date = DateTime.Now;
+            request.Reason = "";
+            request.Company = "";
+            request.IsUrgent = false;
+            OnPropertyChanged("Request");
         }
         #endregion
     }

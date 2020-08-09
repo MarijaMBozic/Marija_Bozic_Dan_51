@@ -15,13 +15,13 @@ namespace HospitalApp
     public partial class Request
     {
         public int RequestId { get; set; }
-        public System.DateTime Date { get; set; }
+        public Nullable<System.DateTime> Date { get; set; }
         public string Reason { get; set; }
         public string Company { get; set; }
         public Nullable<bool> IsUrgent { get; set; }
         public Nullable<bool> IsApproved { get; set; }
         public int PatientId { get; set; }
-        public int DoctorId { get; set; }
+        public Nullable<int> DoctorId { get; set; }
     
         public virtual Doctor Doctor { get; set; }
         public virtual Patient Patient { get; set; }

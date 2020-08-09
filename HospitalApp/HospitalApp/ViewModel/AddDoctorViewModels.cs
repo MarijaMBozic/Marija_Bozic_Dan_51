@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows;
 using System.Windows.Controls;
+using System.ComponentModel;
 
 namespace HospitalApp.ViewModel
 {
@@ -22,11 +23,11 @@ namespace HospitalApp.ViewModel
 
         public AddDoctorViewModels(AddDoctor addDoctorOpen)
         {
-            doctor = new vwDoctor();
+            doctor = new Doctor();
             addDoctor = addDoctorOpen;
         }
 
-        public AddDoctorViewModels(AddDoctor addDoctorOpen, vwDoctor doctorEdit)
+        public AddDoctorViewModels(AddDoctor addDoctorOpen, Doctor doctorEdit)
         {
             doctor = doctorEdit;
             addDoctor = addDoctorOpen;
@@ -36,8 +37,8 @@ namespace HospitalApp.ViewModel
 
         #region Properties
 
-        private vwDoctor doctor;
-        public vwDoctor Doctor
+        private Doctor doctor;
+        public Doctor Doctor
         {
             get
             {
@@ -89,9 +90,8 @@ namespace HospitalApp.ViewModel
             {
                 if(service.AddDoctor(Doctor)!=null)
                 {
-                    isUpdateDoctor = true;
-                    DoctorViewModel doctorViewModel = new DoctorViewModel(Doctor);
-                    DoctorWindow window = new DoctorWindow(doctorViewModel);
+                    isUpdateDoctor = true;                    
+                    DoctorWindow window = new DoctorWindow(Doctor);
                     window.Show();
                     addDoctor.Close();
                 }
@@ -106,7 +106,7 @@ namespace HospitalApp.ViewModel
         {
             return true;            
         }
-
+        /*
         private ICommand close;
 
         public ICommand Close
@@ -138,7 +138,7 @@ namespace HospitalApp.ViewModel
         {
             return true;
         }
-
+        */
         #endregion
     }
 }

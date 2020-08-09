@@ -6,8 +6,7 @@ drop table if exists Doctor
 
 create table Doctor (
    DoctorId       int            identity (1,1) primary key,   
-   Name           nvarchar(100)          not null,
-   Lastname       nvarchar(100)          not null,
+   FullName       nvarchar(100)          not null,
    DoctorJMBG     nvarchar(13)   unique  not null,
    BankAccount    nvarchar(100)  unique  not null,
    Username       nvarchar(100)  unique  not null,
@@ -21,20 +20,20 @@ create table Patient (
    NumInsurce      nvarchar(20)   unique  not null,
    Username        nvarchar(100)  unique  not null,
    PatientPassword nvarchar(max)          not null,
-   DoctorId        int        ,
+   DoctorId        int                        null,
    FOREIGN KEY (DoctorId) REFERENCES Doctor(DoctorId),
 )
 
 create table Request (
 	RequestId        int            identity (1,1) primary key,
-	Date             date                   not null,
+	Date             date                   default getDate(),
 	Reason           nvarchar(100)          not null,
     Company          nvarchar(100)          not null,
-	IsUrgent         bit                    ,
+	IsUrgent         bit                    default 'false',
 	IsApproved       bit                    null,                     
     PatientId        int                    not null,
     FOREIGN KEY (PatientId) REFERENCES Patient(PatientId),
-    DoctorId         int                    not null,
+    DoctorId         int                    null,
     FOREIGN KEY (DoctorId) REFERENCES Doctor(DoctorId),
 )
 

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HospitalApp.Views"
         mc:Ignorable="d"
-        Title="AddDoctor" Height="450" Width="800">
+        Title="AddDoctor" Height="450" Width="800">   
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -33,17 +33,13 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-        <Label Grid.Column="1" Grid.Row="1" Name="lblName" Content="Name:" Padding="0" HorizontalAlignment="Right"/>
-        <Label Grid.Column="1" Grid.Row="3" Name="lblLastname" Content="Lastname:" Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="1" Name="lblFullname" Content="Fullname:" Padding="0" HorizontalAlignment="Right"/>
         <Label Grid.Column="1" Grid.Row="5" Name="lblDoctorJMBG" Content="JMBG:" Padding="0" HorizontalAlignment="Right"/>
         <Label Grid.Column="1" Grid.Row="7" Name="lblBankAccount" Content="Bank Account:" Padding="0" HorizontalAlignment="Right"/>
         <Label Grid.Column="1" Grid.Row="9" Name="lblUsername" Content="Username:" Padding="0" HorizontalAlignment="Right"/>
         <Label Grid.Column="1" Grid.Row="11" Name="lblPassword" Content="Password:" Padding="0" HorizontalAlignment="Right"/>
-        
-        <TextBox Grid.Column="3" Grid.Row="1" Name="txtName" Height="20" Width="150" 
-                 Text="{Binding Doctor.Name, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBox Grid.Column="3" Grid.Row="3" Name="txtLastname" Height="20" Width="150" 
-                 Text="{Binding Doctor.Lastname, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="3" Grid.Row="1" Name="txtFullname" Height="20" Width="150" 
+                 Text="{Binding Doctor.FullName, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBox Grid.Column="3" Grid.Row="5" Name="txtDoctorJMBG" Height="20" Width="150" 
                  Text="{Binding Doctor.DoctorJMBG, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBox Grid.Column="3" Grid.Row="7" Name="txtBankAccount" Height="20" Width="150" 

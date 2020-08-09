@@ -23,11 +23,11 @@ namespace HospitalApp.ViewModel
 
         public AddPatientViewModel(AddPatientView addPatientOpen)
         {
-            patient = new vwPatient();
+            patient = new Patient();
             addPatientWindow = addPatientOpen;
         }
 
-        public AddPatientViewModel(AddPatientView addPatientOpen, vwPatient patientEdit)
+        public AddPatientViewModel(AddPatientView addPatientOpen, Patient patientEdit)
         {
             patient = patientEdit;
             addPatientWindow = addPatientOpen;
@@ -37,8 +37,8 @@ namespace HospitalApp.ViewModel
 
         #region Properties
 
-        private vwPatient patient;
-        public vwPatient Patient
+        private Patient patient;
+        public Patient Patient
         {
             get
             {
@@ -74,7 +74,7 @@ namespace HospitalApp.ViewModel
             {
                 if (savePatient == null)
                 {
-                    savePatient = new RelayCommand(param => SaveExecute(param), param => CanSaveExecute());
+                    savePatient = new RelayCommand(param => SaveExecute(param));
                 }
 
                 return savePatient;
@@ -91,8 +91,8 @@ namespace HospitalApp.ViewModel
                 if (service.AddPatient(Patient) != null)
                 {
                     isUpdatePatient = true;
-                    PatientViewModel patientViewModel = new PatientViewModel(Patient);
-                    PatientWindow window = new PatientWindow(patientViewModel);
+                    
+                    PatientWindow window = new PatientWindow(Patient);
                     window.Show();
                     addPatientWindow.Close();
                 }
@@ -103,10 +103,10 @@ namespace HospitalApp.ViewModel
             }
         }
 
-        private bool CanSaveExecute()
-        {
-            return true;
-        }
+        //private bool CanSaveExecute()
+        //{
+        //    return false;
+        //}
 
         private ICommand close;
 

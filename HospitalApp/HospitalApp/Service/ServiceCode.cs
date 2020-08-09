@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace HospitalApp.Service
         {
             try
             {
-                using(HospitalEntities3 context = new HospitalEntities3())
+                using(HospitalEntities5 context = new HospitalEntities5())
                 {
                     List<vwPatient> list = new List<vwPatient>();
                     list = (from p in context.vwPatients select p).ToList();
@@ -28,12 +29,12 @@ namespace HospitalApp.Service
             }
         }
         
-        public vwPatient AddPatient(vwPatient patient)
+        public Patient AddPatient(Patient patient)
         {
             bool uniqueUser = CheckUserName(patient.Username);
             try
             {
-                using(HospitalEntities3 context = new HospitalEntities3())
+                using(HospitalEntities5 context = new HospitalEntities5())
                 {
                     if(patient.PatientId==0)
                     {
@@ -57,8 +58,7 @@ namespace HospitalApp.Service
                         editPatient.Fullname = patient.Fullname;
                         editPatient.PatientJMBG = patient.PatientJMBG;
                         editPatient.NumInsurce = patient.NumInsurce;
-                        editPatient.Username = patient.Username;
-                        //editPatient.PatientPassword = patient.PatientPassword;
+                        editPatient.Username = patient.Username;                        
                         editPatient.DoctorId = patient.DoctorId;
                         editPatient.PatientId = patient.PatientId;
                         context.SaveChanges();
@@ -77,7 +77,7 @@ namespace HospitalApp.Service
         {
             try
             {
-                using (HospitalEntities3 context = new HospitalEntities3())
+                using (HospitalEntities5 context = new HospitalEntities5())
                 {
                     List<vwDoctor> list = new List<vwDoctor>();
                     list = (from p in context.vwDoctors select p).ToList();
@@ -93,7 +93,7 @@ namespace HospitalApp.Service
 
         public bool CheckUserName(string username)
         {
-            using (HospitalEntities3 context = new HospitalEntities3())
+            using (HospitalEntities5 context = new HospitalEntities5())
             {
                 vwDoctor docUser = (from d in context.vwDoctors where d.Username == username select d).FirstOrDefault();
                 vwPatient patientUser = (from d in context.vwPatients where d.Username == username select d).FirstOrDefault();
@@ -105,25 +105,24 @@ namespace HospitalApp.Service
             }
         }
 
-        public vwDoctor AddDoctor(vwDoctor doctor)
+        public Doctor AddDoctor(Doctor doctor)
         {
             bool uniqueUser = CheckUserName(doctor.Username);
             try
             {
-                using (HospitalEntities3 context = new HospitalEntities3())
+                using (HospitalEntities5 context = new HospitalEntities5())
                 {
                     if (doctor.DoctorId == 0)
                     {
                         if(uniqueUser)
                         {
-                            vwDoctor newDoctor = new vwDoctor();
-                            newDoctor.Name = doctor.Name;
-                            newDoctor.Lastname = doctor.Lastname;
+                            Doctor newDoctor = new Doctor();
+                            newDoctor.FullName = doctor.FullName;
                             newDoctor.DoctorJMBG = doctor.DoctorJMBG;
                             newDoctor.BankAccount = doctor.BankAccount;
                             newDoctor.Username = doctor.Username;
                             newDoctor.DoctorPassword = HashPasswordHelper.HashPassword(doctor.DoctorPassword);
-                            context.vwDoctors.Add(newDoctor);
+                            context.Doctors.Add(newDoctor);
                             context.SaveChanges();
                             doctor.DoctorId = newDoctor.DoctorId;                           
                         }
@@ -131,9 +130,8 @@ namespace HospitalApp.Service
                     }
                     else
                     {
-                        vwDoctor editDoctor = (from p in context.vwDoctors where p.DoctorId == doctor.DoctorId select p).First();
-                        editDoctor.Name = doctor.Name;
-                        editDoctor.Lastname = editDoctor.Lastname;
+                        Doctor editDoctor = (from p in context.Doctors where p.DoctorId == doctor.DoctorId select p).First();
+                        editDoctor.FullName = doctor.FullName;
                         editDoctor.DoctorJMBG = doctor.DoctorJMBG;
                         editDoctor.BankAccount = doctor.BankAccount;
                         editDoctor.Username = doctor.Username;
@@ -155,7 +153,7 @@ namespace HospitalApp.Service
         {
             try
             {
-                using (HospitalEntities3 context = new HospitalEntities3())
+                using (HospitalEntities5 context = new HospitalEntities5())
                 {
                     List<vwRequest> list = new List<vwRequest>();
                     list = (from p in context.vwRequests where p.PatientId== patientId select p).ToList();
@@ -171,7 +169,7 @@ namespace HospitalApp.Service
 
         public vwRequest GetOpenRequestByPatient(int patientId)
         {
-            using (HospitalEntities3 context = new HospitalEntities3())
+            using (HospitalEntities5 context = new HospitalEntities5())
             {
                 if(context.vwRequests==null)
                 {
@@ -189,10 +187,10 @@ namespace HospitalApp.Service
         {
             try
             {
-                using (HospitalEntities3 context = new HospitalEntities3())
+                using (HospitalEntities5 context = new HospitalEntities5())
                 {
                     List<vwRequest> list = new List<vwRequest>();
-                    list = (from p in context.vwRequests where p.DoctorId == doctorId select p).OrderByDescending(x=>x.IsApproved).ThenByDescending(x=>x.Date).ToList();
+                    list = (from p in context.vwRequests where p.DoctorId == doctorId select p).OrderByDescending(x=>x.IsApproved==null).ThenByDescending(x=>x.IsUrgent).ThenByDescending(x=>x.Date).ToList();
                     return list;
                 }
             }
@@ -207,7 +205,7 @@ namespace HospitalApp.Service
         {
             try
             {
-                using (HospitalEntities3 context = new HospitalEntities3())
+                using (HospitalEntities5 context = new HospitalEntities5())
                 {
                     if (request.RequestId == 0)
                     {
@@ -254,7 +252,7 @@ namespace HospitalApp.Service
         {
             try
             {
-                using (HospitalEntities3 context = new HospitalEntities3())
+                using (HospitalEntities5 context = new HospitalEntities5())
                 {
                     Request resultToDelete = (from r in context.Requests where r.RequestId == requestId select r).First();
                     if(resultToDelete.IsApproved!=null)
@@ -270,14 +268,14 @@ namespace HospitalApp.Service
             }
         }
 
-        public vwDoctor LoginDoctor(string username, string password)
+        public Doctor LoginDoctor(string username, string password)
         {
             password = HashPasswordHelper.HashPassword(password);
             try
             {
-                using(HospitalEntities3 context = new HospitalEntities3())
+                using(HospitalEntities5 context = new HospitalEntities5())
                 {
-                    vwDoctor doctor = (from d in context.vwDoctors 
+                    Doctor doctor = (from d in context.Doctors 
                                      where d.Username.Equals(username) where d.DoctorPassword.Equals(password) select d).First();
                     return doctor;
                 }
@@ -289,14 +287,14 @@ namespace HospitalApp.Service
             }
         }
 
-        public vwPatient LoginPatient(string username, string password)
+        public Patient LoginPatient(string username, string password)
         {
             password = HashPasswordHelper.HashPassword(password);
             try
             {
-                using (HospitalEntities3 context = new HospitalEntities3())
+                using (HospitalEntities5 context = new HospitalEntities5())
                 {
-                    vwPatient patient = (from p in context.vwPatients
+                    Patient patient = (from p in context.Patients
                                      where p.Username.Equals(username)
                                      where p.PatientPassword.Equals(password)
                                      select p).First();
