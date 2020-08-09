@@ -37,7 +37,7 @@ namespace HospitalApp.Views
         {
             if (isValidDate &&
                 isValidReason &&
-                isValidCompany)
+                isValidCompany && !viewModel.OpenRequest)
             {
                 btnSaveRequest.IsEnabled = true;
             }
@@ -54,7 +54,7 @@ namespace HospitalApp.Views
                 lblValidationDate.Visibility = Visibility.Visible;
                 lblValidationDate.FontSize = 16;
                 lblValidationDate.Foreground = new SolidColorBrush(Colors.Red);
-                //lblValidationDate.Content = "You must select a date!";
+                lblValidationDate.Content = "You must select a date!";
             }
 
             if (!txtDate.SelectedDate.HasValue)
@@ -80,7 +80,7 @@ namespace HospitalApp.Views
                 lblValidationReason.Visibility = Visibility.Visible;
                 lblValidationReason.FontSize = 16;
                 lblValidationReason.Foreground = new SolidColorBrush(Colors.Red);
-               // lblValidationReason.Content = "You must enter a reason!";
+                lblValidationReason.Content = "You must enter a reason!";
             }
 
             if (txtReason.Text.Length<5 && txtReason.Text.Length > 0)
@@ -106,7 +106,7 @@ namespace HospitalApp.Views
                 lblValidationCompany.Visibility = Visibility.Visible;
                 lblValidationCompany.FontSize = 16;
                 lblValidationCompany.Foreground = new SolidColorBrush(Colors.Red);
-                //lblValidationCompany.Content = "You must enter a company!";
+                lblValidationCompany.Content = "You must enter a company!";
             }
 
             if (txtCompany.Text.Length < 5 && txtCompany.Text.Length > 0)

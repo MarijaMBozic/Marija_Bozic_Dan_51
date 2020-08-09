@@ -24,6 +24,7 @@ namespace HospitalApp
     {
         private bool isValidUsername;
         private bool isValidPassword;
+
         public MainWindow()
         {
             InitializeComponent();

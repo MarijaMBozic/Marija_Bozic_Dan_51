@@ -13,6 +13,7 @@ namespace HospitalApp.ViewModel
     public class PatientViewModel:ViewModelBase
     {
         ServiceCode service = new ServiceCode();
+        List<vwDoctor> listDoc;
         PatientWindow patientWindow;
         #region Constructor
 
@@ -20,7 +21,7 @@ namespace HospitalApp.ViewModel
         {
             this.patient = patient;
             this.patientWindow = patientWindow;
-            List<vwDoctor> listDoc= service.GetAllDoctors();
+            listDoc= service.GetAllDoctors();
             RequestList = new ObservableCollection<vwRequest>(service.GetAllRequestByPatient(patient.PatientId));
             DoctorList = new ObservableCollection<vwDoctor>(listDoc);
             CheckOpenRequest(RequestList);
@@ -47,11 +48,27 @@ namespace HospitalApp.ViewModel
             {
                 if(patient.DoctorId==null)
                 {
-                    return Visibility.Visible;
+                    if(listDoc.Count!=0)
+                    {
+                        return Visibility.Visible;
+                    }                   
+                }
+                return Visibility.Hidden;
+            }            
+        }
+        public Visibility ViewLblDrNotAvailable
+        {
+            get
+            {
+                if (patient.DoctorId == null)
+                {
+                    if (listDoc.Count == 0)
+                    {
+                        return Visibility.Visible;
+                    }
                 }
                 return Visibility.Hidden;
             }
-            
         }
 
         private Patient patient;
@@ -213,7 +230,7 @@ namespace HospitalApp.ViewModel
             {
                 if (saveRequest == null)
                 {
-                    saveRequest = new RelayCommand(param => RequestExecute(), param => CanRequestExecute());
+                    saveRequest = new RelayCommand(param => RequestExecute());
                 }
                 return saveRequest;
             }
@@ -235,18 +252,6 @@ namespace HospitalApp.ViewModel
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
-            }
-        }
-
-        private bool CanRequestExecute()
-        {
-            if(OpenRequest==true)
-            {
-                return false;
-            }
-            else
-            {                
-                return true;
             }
         }
                 
