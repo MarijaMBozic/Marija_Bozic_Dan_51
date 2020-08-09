@@ -4,16 +4,16 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="84963fe8612c47c1ad1a3fbf68f1a17d" Name="Diagram1">
+      <Diagram DiagramId="04a672859cb7466fb308a45a44a2f18f" Name="Diagram1">
         <EntityTypeShape EntityType="HospitalModel.Doctor" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="HospitalModel.Patient" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="HospitalModel.Request" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="HospitalModel.vwDoctor" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HospitalModel.vwPatient" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HospitalModel.vwRequest" Width="1.5" PointX="4.75" PointY="4.75" IsExpanded="true" />
-        <AssociationConnector Association="HospitalModel.FK__Patient__DoctorI__43A1090D" ManuallyRouted="false" />
-        <AssociationConnector Association="HospitalModel.FK__Request__DoctorI__4959E263" ManuallyRouted="false" />
-        <AssociationConnector Association="HospitalModel.FK__Request__Patient__4865BE2A" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalModel.FK__Patient__DoctorI__3F9B6DFF" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalModel.FK__Request__DoctorI__45544755" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalModel.FK__Request__Patient__4460231C" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

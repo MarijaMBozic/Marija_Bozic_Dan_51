@@ -59,7 +59,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="70"/>
                 <DataGridTextColumn Header="Reason" Binding="{Binding Reason}"/>
-                <DataGridTextColumn Header="Patient" Binding="{Binding Expr2}"/>
+                <DataGridTextColumn Header="Patient" Binding="{Binding Expr1}"/>
                 <DataGridTemplateColumn Header="Approve/Rejact" >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

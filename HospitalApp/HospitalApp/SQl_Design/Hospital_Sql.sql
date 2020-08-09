@@ -29,12 +29,12 @@ create table Request (
 	Date             date                   default getDate(),
 	Reason           nvarchar(100)          not null,
     Company          nvarchar(100)          not null,
-	IsUrgent         bit                    default 'false',
+	IsUrgent         bit                    not null default 0,
 	IsApproved       bit                    null,                     
     PatientId        int                    not null,
     FOREIGN KEY (PatientId) REFERENCES Patient(PatientId),
     DoctorId         int                    null,
-    FOREIGN KEY (DoctorId) REFERENCES Doctor(DoctorId),
+    FOREIGN KEY (DoctorId) REFERENCES Doctor(DoctorId)
 )
 
 ALTER TABLE Patient
@@ -47,8 +47,8 @@ ALTER TABLE Doctor
 
 ALTER TABLE Patient
 	ADD CONSTRAINT PatientJMBG 
-	CHECK(LEN([PatientJMBG]) >=13 AND ([PatientJMBG] not like '%[^0-9]%'))
+	CHECK(LEN([PatientJMBG])=13 AND ([PatientJMBG] not like '%[^0-9]%'))
 
 ALTER TABLE Doctor
 	ADD CONSTRAINT DoctorJMBG 
-	CHECK(LEN([DoctorJMBG]) >=13 AND ([DoctorJMBG] not like '%[^0-9]%'))
+	CHECK(LEN([DoctorJMBG])=13 AND ([DoctorJMBG] not like '%[^0-9]%'))

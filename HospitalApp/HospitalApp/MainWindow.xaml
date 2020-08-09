@@ -35,21 +35,23 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-
-        <Label Grid.Column="3" Grid.Row="5" Name="lblUsername" Content="Username:" Padding="0" HorizontalAlignment="Right"/>
-        <Label Grid.Column="3" Grid.Row="7" Name="lblPassword" Content="Password:" Padding="0" HorizontalAlignment="Right"/>
-
-        <TextBox Grid.Column="5" Grid.Row="5" Name="txtUsername" Height="20" Width="150" 
+        <Label Grid.Column="1" Grid.Row="1" Name="lblUsername" Content="Username:" Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="7" Grid.Row="1" Grid.ColumnSpan="5"  Grid.RowSpan="3" Name="lblValidationUserName" Visibility="Hidden" Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="3" Name="lblPassword" Content="Password:" Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="7" Grid.Row="3" Grid.ColumnSpan="5" Grid.RowSpan="3" Name="lblValidationPassword" Padding="0" HorizontalAlignment="Right"/>
+        <TextBox Grid.Column="3" Grid.Row="1" Name="txtUsername" Height="20" Width="150" 
+                 TextChanged="txtUsername_TextChanged"
                  Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"/>
-        <PasswordBox Grid.Column="5" Grid.Row="7" Name="txtPassword" Height="20" Width="150"/>
-        <Button Grid.Column="5" Grid.Row="13" Name="btnLogin" Content="Login" Height="20" 
+        <PasswordBox Grid.Column="3" Grid.Row="3" Name="txtPassword" Height="20" Width="150"
+                     PasswordChanged="txtPassword_PasswordChanged"/>
+        <Button Grid.Column="3" Grid.Row="5" Name="btnLogin" IsEnabled="False" Content="Login" Height="20" 
                 Width="70" HorizontalAlignment="Left" Command="{Binding Login, UpdateSourceTrigger=PropertyChanged}"
                 CommandParameter="{Binding ElementName=txtPassword}"/>
-        <Button Grid.Column="7" Grid.Row="5" Name="btnRegistationD" Content="Registration Doctor" Height="20" 
+        <Button Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="6" Name="btnRegistationD" Content="Registration Doctor" Height="20" 
                 Width="110" HorizontalAlignment="Left" Command="{Binding RegistrationDoctor, UpdateSourceTrigger=PropertyChanged}"
                />
-        <Button Grid.Column="7" Grid.Row="7" Name="btnRegistationP" Content="Registration Patient" Height="20" 
-                Width="110" HorizontalAlignment="Left" Command="{Binding RegistrationPatient, UpdateSourceTrigger=PropertyChanged}"
+        <Button Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="6" Margin="30,0,0,0" Name="btnRegistationP" Content="Registration Patient" Height="20" 
+                Width="110" HorizontalAlignment="Right" Command="{Binding RegistrationPatient, UpdateSourceTrigger=PropertyChanged}"
                />
         
     </Grid>

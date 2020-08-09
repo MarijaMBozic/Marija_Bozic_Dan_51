@@ -50,6 +50,7 @@ namespace HospitalApp.ViewModel
                 OnPropertyChanged("Doctor");
             }
         }
+        /*
         private bool isUpdateDoctor;
         public bool IsUpdateDoctor
         {
@@ -61,7 +62,7 @@ namespace HospitalApp.ViewModel
             {
                 isUpdateDoctor = value;
             }
-        }
+        }*/
         #endregion
 
         #region Commands
@@ -74,9 +75,8 @@ namespace HospitalApp.ViewModel
             {
                 if (save == null)
                 {
-                    save = new RelayCommand(param => SaveExecute(param), param => CanSaveExecute());
+                    save = new RelayCommand(param => SaveExecute(param));
                 }
-
                 return save;
             }
         }
@@ -90,7 +90,7 @@ namespace HospitalApp.ViewModel
             {
                 if(service.AddDoctor(Doctor)!=null)
                 {
-                    isUpdateDoctor = true;                    
+                    //isUpdateDoctor = true;                    
                     DoctorWindow window = new DoctorWindow(Doctor);
                     window.Show();
                     addDoctor.Close();
@@ -102,43 +102,6 @@ namespace HospitalApp.ViewModel
             }
         }
 
-        private bool CanSaveExecute()
-        {
-            return true;            
-        }
-        /*
-        private ICommand close;
-
-        public ICommand Close
-        {
-            get
-            {
-                if (close == null)
-                {
-                    close = new RelayCommand(param => CloseExecute(), param => CanCloseExecute());
-                }
-
-                return close;
-            }
-        }
-
-        private void CloseExecute()
-        {
-            try
-            {
-                addDoctor.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
-
-        private bool CanCloseExecute()
-        {
-            return true;
-        }
-        */
         #endregion
     }
 }

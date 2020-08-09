@@ -34,20 +34,30 @@
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         <Label Grid.Column="1" Grid.Row="1" Name="lblFullname" Content="Fullname:" Padding="0" HorizontalAlignment="Right"/>
-        <Label Grid.Column="1" Grid.Row="5" Name="lblDoctorJMBG" Content="JMBG:" Padding="0" HorizontalAlignment="Right"/>
-        <Label Grid.Column="1" Grid.Row="7" Name="lblBankAccount" Content="Bank Account:" Padding="0" HorizontalAlignment="Right"/>
-        <Label Grid.Column="1" Grid.Row="9" Name="lblUsername" Content="Username:" Padding="0" HorizontalAlignment="Right"/>
-        <Label Grid.Column="1" Grid.Row="11" Name="lblPassword" Content="Password:" Padding="0" HorizontalAlignment="Right"/>
-        <TextBox Grid.Column="3" Grid.Row="1" Name="txtFullname" Height="20" Width="150" 
+        <Label Grid.Column="5" Grid.Row="1" Name="lblValidationFullname" Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="3" Name="lblDoctorJMBG" Content="JMBG:" Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="5" Grid.Row="3" Name="lblValidationJMBG" Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="5" Name="lblBankAccount" Content="Bank Account:" Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="5" Grid.Row="5" Name="lblValidationBankAccount" Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="7" Name="lblUsername" Content="Username:" Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="5" Grid.Row="7" Name="lblValidationUserName" Grid.RowSpan="3" Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="9" Name="lblPassword" Content="Password:" Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="5" Grid.Row="9" Name="lblValidationPassword" Grid.RowSpan="3" Padding="0" HorizontalAlignment="Right"/>
+        <TextBox Grid.Column="3" Grid.Row="1" Name="txtFullname" Height="20" Width="150"
+                 TextChanged="txtFullname_TextChanged"
                  Text="{Binding Doctor.FullName, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBox Grid.Column="3" Grid.Row="5" Name="txtDoctorJMBG" Height="20" Width="150" 
+        <TextBox Grid.Column="3" Grid.Row="3" Name="txtDoctorJMBG" Height="20" Width="150" 
+                 TextChanged="txtDoctorJMBG_TextChanged"
                  Text="{Binding Doctor.DoctorJMBG, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBox Grid.Column="3" Grid.Row="7" Name="txtBankAccount" Height="20" Width="150" 
+        <TextBox Grid.Column="3" Grid.Row="5" Name="txtBankAccount" Height="20" Width="150" 
+                 TextChanged="txtBankAccount_TextChanged"
                  Text="{Binding Doctor.BankAccount, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBox Grid.Column="3" Grid.Row="9" Name="txtUsername" Height="20" Width="150" 
+        <TextBox Grid.Column="3" Grid.Row="7" Name="txtUsername" Height="20" Width="150"
+                 TextChanged="txtUsername_TextChanged"
                  Text="{Binding Doctor.Username, UpdateSourceTrigger=PropertyChanged}"/>
-        <PasswordBox Grid.Column="3" Grid.Row="11" Name="txtPassword" Height="20" Width="150"/>
-        <Button Grid.Column="3" Grid.Row="13" Name="btnSave" Content="Register" Height="20" 
+        <PasswordBox Grid.Column="3" Grid.Row="9" Name="txtPassword" Height="20" Width="150"
+                     PasswordChanged="txtPassword_PasswordChanged"/>
+        <Button Grid.Column="3" Grid.Row="13" Name="btnSaveDoctor" Content="Register" IsEnabled="False" Height="20" 
                 Width="70" HorizontalAlignment="Left" Command="{Binding Save, UpdateSourceTrigger=PropertyChanged}"
                 CommandParameter="{Binding ElementName=txtPassword}"/>
     </Grid>

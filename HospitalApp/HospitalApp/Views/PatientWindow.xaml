@@ -89,18 +89,24 @@
                 <RowDefinition Height="20"/>
             </Grid.RowDefinitions>
             <Label Grid.Column="1" Grid.Row="1" Name="lblDate" Content="Date:" Padding="0" HorizontalAlignment="Right"/>
-            <Label Grid.Column="1" Grid.Row="3" Name="lblReason" Content="Reason:" Padding="0" HorizontalAlignment="Right"/>
-            <Label Grid.Column="1" Grid.Row="5" Name="lblCompany" Content="Company:" Padding="0" HorizontalAlignment="Right"/>
-            <Label Grid.Column="1" Grid.Row="7" Name="lblIsUrgent" Content="Urgent:" Padding="0" HorizontalAlignment="Right"/>           
+            <Label Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" Name="lblValidationDate" Visibility="Hidden" Padding="0" HorizontalAlignment="Right"/>
+            <Label Grid.Column="1" Grid.Row="5" Name="lblReason" Content="Reason:" Padding="0" HorizontalAlignment="Right"/>
+            <Label Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="3" Name="lblValidationReason" Visibility="Hidden" Padding="0" HorizontalAlignment="Right"/>
+            <Label Grid.Column="1" Grid.Row="9" Name="lblCompany" Content="Company:" Padding="0" HorizontalAlignment="Right"/>
+            <Label Grid.Column="1" Grid.Row="11" Grid.ColumnSpan="3" Name="lblValidationCompany" Visibility="Hidden" Padding="0" HorizontalAlignment="Right"/>
+            <Label Grid.Column="1" Grid.Row="13" Name="lblIsUrgent" Content="Urgent:" Padding="0" HorizontalAlignment="Right"/>           
             <DatePicker Grid.Column="3" Grid.Row="1" Name="txtDate" Height="25" Width="150" 
+                 SelectedDateChanged="txtDate_SelectedDateChanged"
                  SelectedDate="{Binding Request.Date, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBox Grid.Column="3" Grid.Row="3" Name="txtReason" Height="20" Width="150" 
-                 Text="{Binding Request.Reason, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBox Grid.Column="3" Grid.Row="5" Name="txtCompany" Height="20" Width="150" 
-                 Text="{Binding Request.Company, UpdateSourceTrigger=PropertyChanged}"/>
-            <CheckBox Grid.Column="3" Grid.Row="7" Name="txtIsUrgent" Height="20" Width="150" 
-                 IsChecked="{Binding Request.IsUrgent, UpdateSourceTrigger=PropertyChanged}"/>
-            <Button Grid.Column="3" Grid.Row="13" Name="btnSaveRequest" Content="Submit request" Height="20" 
+            <TextBox Grid.Column="3" Grid.Row="5" Name="txtReason" Height="20" Width="150" 
+                 TextChanged="txtReason_TextChanged"
+                     Text="{Binding Request.Reason, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Grid.Column="3" Grid.Row="9" Name="txtCompany" Height="20" Width="150" 
+                 TextChanged="txtCompany_TextChanged"
+                     Text="{Binding Request.Company, UpdateSourceTrigger=PropertyChanged}"/>
+            <CheckBox Grid.Column="3" Grid.Row="13" Name="txtIsUrgent" Height="20" Width="150"                       
+                      IsChecked="{Binding Request.IsUrgent, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Grid.Column="3" Grid.Row="15" Name="btnSaveRequest" Content="Submit request" Height="20" 
                 Width="100" HorizontalAlignment="Center" Command="{Binding SaveRequest, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
         <DataGrid Grid.Column="7" Grid.Row="3" Grid.RowSpan="5" Name="DataGridResults" ItemsSource="{Binding RequestList, UpdateSourceTrigger=PropertyChanged}"

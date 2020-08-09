@@ -52,7 +52,7 @@ namespace HospitalApp.ViewModel
             {
                 if (login == null)
                 {
-                    login = new RelayCommand(param => LoginExecute(param), param => CanLoginExecute());
+                    login = new RelayCommand(param => LoginExecute(param));
                 }
                 return login;
             }
@@ -96,11 +96,6 @@ namespace HospitalApp.ViewModel
             {
                 MessageBox.Show(ex.ToString());
             }
-        }
-
-        private bool CanLoginExecute()
-        {
-            return true;
         }
 
         private ICommand registrationDoctor;

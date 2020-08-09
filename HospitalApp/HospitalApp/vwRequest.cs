@@ -18,12 +18,13 @@ namespace HospitalApp
         public Nullable<System.DateTime> Date { get; set; }
         public string Reason { get; set; }
         public string Company { get; set; }
-        public Nullable<bool> IsUrgent { get; set; }
+        public bool IsUrgent { get; set; }
         public Nullable<bool> IsApproved { get; set; }
         public int PatientId { get; set; }
         public Nullable<int> DoctorId { get; set; }
-        public string Expr2 { get; set; }
         public string Expr1 { get; set; }
-        public string Expr3 { get; set; }
+        public int Expr2 { get; set; }
+        public int Expr3 { get; set; }
+        public string DoctorFullName { get; set; }
     }
 }
