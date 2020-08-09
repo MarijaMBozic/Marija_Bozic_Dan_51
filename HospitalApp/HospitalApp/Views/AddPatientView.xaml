@@ -35,23 +35,31 @@
         </Grid.RowDefinitions>
         <Label Grid.Column="1" Grid.Row="1" Name="lblFullName" Content="Full name:" Padding="0" HorizontalAlignment="Right"/>
         <Label Grid.Column="5" Grid.Row="1" Grid.ColumnSpan="3"  Name="lblValidationFullName" Visibility="Hidden" Padding="0" HorizontalAlignment="Right"/>
-        <Label Grid.Column="1" Grid.Row="5" Name="lblDoctorJMBG" Content="JMBG:" Padding="0" HorizontalAlignment="Right"/>
-        <Label Grid.Column="1" Grid.Row="7" Name="lblNumInsurance" Content="Number of Insurance:" Padding="0" HorizontalAlignment="Right"/>
-        <Label Grid.Column="1" Grid.Row="9" Name="lblUsername" Content="Username:" Padding="0" HorizontalAlignment="Right"/>
-        <Label Grid.Column="1" Grid.Row="11" Name="lblPassword" Content="Password:" Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="3" Name="lblDoctorJMBG" Content="JMBG:" Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="5" Grid.Row="3" Grid.ColumnSpan="3"  Name="lblValidationJMBG" Visibility="Hidden" Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="5" Name="lblNumInsurance" Content="Number of Insurance:" Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="5" Grid.Row="5" Grid.ColumnSpan="3"  Name="lblValidationNumInsurance" Visibility="Hidden" Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="7" Name="lblUsername" Content="Username:" Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="5" Grid.Row="7" Grid.ColumnSpan="5" Grid.RowSpan="3"  Name="lblValidationUserName" Visibility="Hidden" Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="9" Name="lblPassword" Content="Password:" Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="5" Grid.Row="9" Grid.ColumnSpan="5" Grid.RowSpan="3" Name="lblValidationPassword" Visibility="Hidden" Padding="0" HorizontalAlignment="Right"/>
 
         <TextBox Grid.Column="3" Grid.Row="1" Name="txtFullName" Height="20" Width="150" 
                  TextChanged="txtFullName_TextChanged"
-                 Text="{Binding Patient.Fullname, UpdateSourceTrigger=PropertyChanged}"/>
-       
-        <TextBox Grid.Column="3" Grid.Row="5" Name="txtPatientJMBG" Height="20" Width="150" 
+                 Text="{Binding Patient.Fullname, UpdateSourceTrigger=PropertyChanged}"/>       
+        <TextBox Grid.Column="3" Grid.Row="3" Name="txtPatientJMBG" Height="20" Width="150" 
+                 TextChanged="txtPatientJMBG_TextChanged"
                  Text="{Binding Patient.PatientJMBG, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBox Grid.Column="3" Grid.Row="7" Name="txtNumInsurace" Height="20" Width="150" 
+        <TextBox Grid.Column="3" Grid.Row="5" Name="txtNumInsurace" Height="20" Width="150" 
+                 TextChanged="txtNumInsurace_TextChanged"
                  Text="{Binding Patient.NumInsurce, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBox Grid.Column="3" Grid.Row="9" Name="txtUsername" Height="20" Width="150" 
+        <TextBox Grid.Column="3" Grid.Row="7" Name="txtUsername" Height="20" Width="150" 
+                 TextChanged="txtUsername_TextChanged"
                  Text="{Binding Patient.Username, UpdateSourceTrigger=PropertyChanged}"/>
-        <PasswordBox Grid.Column="3" Grid.Row="11" Name="txtPassword" Height="20" Width="150"/>
-        <Button Grid.Column="3" Grid.Row="13" Name="btnSavePatient" Content="Register" IsEnabled="False" Height="20" 
+        <PasswordBox Grid.Column="3" Grid.Row="9" Name="txtPassword" Height="20" Width="150"
+                     PasswordChanged="txtPassword_PasswordChanged"
+                     />
+        <Button Grid.Column="3" Grid.Row="11" Name="btnSavePatient" Content="Register" IsEnabled="False" Height="20" 
                 Width="70" HorizontalAlignment="Left" Command="{Binding SavePatient, UpdateSourceTrigger=PropertyChanged}"
                 CommandParameter="{Binding ElementName=txtPassword}"/>
     </Grid>
