@@ -73,7 +73,6 @@ namespace HospitalApp
 
         private void txtPassword_PasswordChanged(object sender, RoutedEventArgs e)
         {
-
             if (txtPassword.Focus())
             {
                 lblValidationPassword.Visibility = Visibility.Visible;

@@ -60,7 +60,6 @@ namespace HospitalApp.ViewModel
 
         private void LoginExecute(object parametar)
         {
-            //Doctor.DoctorPassword = password;
             try
             {
                 var passwordBox = parametar as PasswordBox;
@@ -85,8 +84,7 @@ namespace HospitalApp.ViewModel
                     }
                 }
                 else
-                {
-                    // DoctorViewModel viewModel = new DoctorViewModel(doctor);
+                {                   
                     DoctorWindow window = new DoctorWindow(doctor);
                     window.Show();
                     main.Close();

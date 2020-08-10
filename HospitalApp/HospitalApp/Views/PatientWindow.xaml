@@ -50,11 +50,9 @@
                 FontWeight="Bold" Margin="5,1,0,0" HorizontalAlignment="Left"/>
         <Label Grid.Column="1" Grid.Row="1" Name="lblName" Content="Full name:" Padding="0" HorizontalAlignment="Right"/>
         <Label Grid.Column="3" Grid.Row="1" Name="txtName" Content="{Binding Patient.Fullname}" Padding="0" HorizontalAlignment="Left"/>
-        <Label Grid.Column="1" Grid.Row="3" Name="lblDoctor" Content="Choose doctor:" Padding="0" HorizontalAlignment="Right"
-               Visibility="{Binding ViewComBox, UpdateSourceTrigger=PropertyChanged}"/>
         <Label Grid.Column="3" Grid.Row="3" Name="txtFreeDoctor" Content="There are no free doctors" Padding="0" HorizontalAlignment="Left"
                Visibility="{Binding ViewLblDrNotAvailable, UpdateSourceTrigger=PropertyChanged}"/>
-        <ComboBox Grid.Column="3" Grid.Row="3" Name="cmbDoctor" Height="20" Width="150" DisplayMemberPath="FullName" IsEditable="True"
+        <ComboBox Grid.Column="3" Grid.Row="3" Name="cmbDoctor" Height="20" Width="150" DisplayMemberPath="FullName" IsEditable="True" Text="Select Doctor"
                   ItemsSource="{Binding DoctorList, UpdateSourceTrigger=PropertyChanged}"
                   Visibility="{Binding ViewComBox, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding SelectedDoctor, UpdateSourceTrigger=PropertyChanged}"/>
@@ -117,7 +115,7 @@
             <TextBox Grid.Column="3" Grid.Row="5" Name="txtCompany" Height="20" Width="150" 
                  TextChanged="txtCompany_TextChanged"
                      Text="{Binding Request.Company, UpdateSourceTrigger=PropertyChanged}"/>
-            <CheckBox Grid.Column="3" Grid.Row="7" Name="txtIsUrgent" Height="20" Width="150"                       
+            <CheckBox Grid.Column="3" Grid.Row="7" Name="txtIsUrgent"   Height="20" Width="150"                       
                       IsChecked="{Binding Request.IsUrgent, UpdateSourceTrigger=PropertyChanged}"/>
             <Button Grid.Column="3" Grid.Row="9" Name="btnSaveRequest" Content="Submit request" IsEnabled="False" Height="20" 
                 Width="100" HorizontalAlignment="Center" Command="{Binding SaveRequest, UpdateSourceTrigger=PropertyChanged}"/>
