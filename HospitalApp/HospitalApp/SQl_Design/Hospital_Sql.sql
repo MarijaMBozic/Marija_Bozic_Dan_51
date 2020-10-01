@@ -1,4 +1,5 @@
-
+CREATE DATABASE Hospital;
+GO
 
 Use Hospital
 
